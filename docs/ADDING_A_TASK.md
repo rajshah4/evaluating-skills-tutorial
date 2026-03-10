@@ -200,6 +200,10 @@ uv run python scripts/run_eval.py --task <task-name> --backend docker --executio
 ```
 
 ```bash
+uv run python scripts/run_eval.py --task <task-name> --backend agent-server --execution-mode repo --condition improved-skill
+```
+
+```bash
 uv run python scripts/run_eval.py --task <task-name> --backend cloud --execution-mode repo --condition improved-skill --cloud-repo <owner/repo>
 ```
 

@@ -140,6 +140,42 @@ This should improve over time. For now, this repo keeps both:
 
 Use this when you want a locally hosted OpenHands runtime and richer traces.
 
+Recommended local pattern:
+
+1. start a local agent server
+2. point the eval runner at that server
+
+Start the server:
+
+```bash
+./scripts/start_local_agent_server.sh
+```
+
+This mounts this repo into the container at:
+
+- `/workspace/project/evaluating-skills-tutorial`
+
+Then run an eval against that server:
+
+```bash
+uv run python scripts/run_eval.py \
+  --task sec-financial-report \
+  --backend agent-server \
+  --execution-mode repo \
+  --condition improved-skill
+```
+
+Environment variables for this flow:
+
+```bash
+export OPENHANDS_AGENT_SERVER_URL=http://127.0.0.1:8000
+export OPENHANDS_AGENT_REPO_DIR=/workspace/project/evaluating-skills-tutorial
+```
+
+This is closer to the local flow used in `OpenHands/vulnerability-fixer` than creating Docker sandboxes inside the runner.
+
+Legacy direct Docker workspace runs are still supported below.
+
 Dependency audit:
 
 ```bash
@@ -165,17 +201,30 @@ uv run python scripts/run_eval.py --task sales-pivot-analysis --backend docker -
 
 Use this when you want the agent to work directly against task files that already live in the repo, instead of uploading fixtures into an empty sandbox.
 
-This mode currently supports Docker only:
+This mode supports both:
+
+- `--backend agent-server` for a pre-started local agent server
+- `--backend docker` for the older self-managed runner-owned Docker flow
 
 ```bash
 uv run python scripts/run_eval.py \
   --task sec-financial-report \
-  --backend docker \
+  --backend agent-server \
   --execution-mode repo \
   --condition improved-skill
 ```
 
-In repo-backed mode, the runner mounts this repo into the container at `/workspace` and the agent works directly inside:
+In the recommended local agent-server flow, the container mounts this repo at:
+
+- `/workspace/project/evaluating-skills-tutorial`
+
+The runner then uses:
+
+- `/workspace/project/evaluating-skills-tutorial/task_repos/software_dependency_audit`
+- `/workspace/project/evaluating-skills-tutorial/task_repos/sec_financial_report`
+- `/workspace/project/evaluating-skills-tutorial/task_repos/sales_pivot_analysis`
+
+The older direct Docker backend still uses:
 
 - `/workspace/task_repos/software_dependency_audit`
 - `/workspace/task_repos/sec_financial_report`
@@ -254,7 +303,7 @@ This tutorial uses Laminar as the example tracing backend, but the evaluation lo
 
 ## Cloud vs Docker
 
-Both backends work. OpenHands Cloud is the fastest way to start, either with uploaded fixtures or a GitHub-backed repo conversation. Docker is the better choice when you want a locally hosted runtime, richer traces, and exact SDK-side agent control.
+Both backends work. OpenHands Cloud is the fastest way to start, either with uploaded fixtures or a GitHub-backed repo conversation. For local work, the recommended path is a pre-started agent server container. The older direct Docker workspace path is still available when you want the runner to manage the container itself.
 
 ## Extend This Tutorial
 

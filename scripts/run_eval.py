@@ -17,6 +17,7 @@ from pydantic import SecretStr
 from openhands.sdk import Agent, AgentContext, Conversation, Event, LLM, Tool
 from openhands.sdk.context import Skill
 from openhands.sdk.event import LLMConvertibleEvent
+from openhands.sdk.workspace import Workspace as SDKWorkspace
 from openhands.tools.file_editor import FileEditorTool
 from openhands.tools.task_tracker import TaskTrackerTool
 from openhands.tools.terminal import TerminalTool
@@ -57,7 +58,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--backend",
         default="cloud",
-        choices=["cloud", "docker"],
+        choices=["cloud", "docker", "agent-server"],
         help="Execution backend to use.",
     )
     parser.add_argument(
@@ -81,6 +82,21 @@ def parse_args() -> argparse.Namespace:
         default="auto",
         choices=["repo-message", "inline", "auto"],
         help="How Cloud repo-backed runs should provide skill guidance.",
+    )
+    parser.add_argument(
+        "--agent-server-url",
+        default=os.getenv("OPENHANDS_AGENT_SERVER_URL", "http://127.0.0.1:8000"),
+        help="Base URL for a pre-started local OpenHands agent server.",
+    )
+    parser.add_argument(
+        "--agent-server-api-key",
+        default=os.getenv("OPENHANDS_AGENT_SERVER_API_KEY"),
+        help="Optional API key for a pre-started local OpenHands agent server.",
+    )
+    parser.add_argument(
+        "--agent-repo-dir",
+        default=os.getenv("OPENHANDS_AGENT_REPO_DIR", "/workspace/project/evaluating-skills-tutorial"),
+        help="Repo root inside a pre-started local agent server for repo-backed runs.",
     )
     parser.add_argument(
         "--results-dir",
@@ -250,6 +266,12 @@ def create_workspace(args: argparse.Namespace):
             cloud_api_key=cloud_api_key,
             keep_alive=args.keep_alive,
         )
+    if args.backend == "agent-server":
+        return SDKWorkspace(
+            host=args.agent_server_url,
+            api_key=args.agent_server_api_key,
+            working_dir="/workspace",
+        )
 
     forward_env = [
         "LMNR_PROJECT_API_KEY",
@@ -284,6 +306,8 @@ def get_remote_paths(
             if not repo_name:
                 raise RuntimeError("cloud_repo must be set for cloud repo-backed runs")
             remote_project_dir = f"/workspace/project/{repo_name}/tasks/{config.dir_name}"
+        elif backend == "agent-server":
+            remote_project_dir = f"{cloud_repo.rstrip('/')}/task_repos/{config.dir_name}"
         else:
             remote_project_dir = f"/workspace/task_repos/{config.dir_name}"
         remote_output_dir = f"{remote_project_dir}/output"
@@ -515,15 +539,15 @@ def main() -> int:
         args.task,
         args.execution_mode,
         backend=args.backend,
-        cloud_repo=args.cloud_repo,
+        cloud_repo=args.cloud_repo if args.backend == "cloud" else args.agent_repo_dir,
     )
 
     start_time = time.perf_counter()
     try:
         if args.execution_mode == "repo":
-            if args.backend != "docker":
-                raise RuntimeError("execution-mode=repo is currently supported only with --backend docker")
-            local_repo_dir = prepare_repo_backed_task(args.task)
+            if args.backend not in {"docker", "agent-server"}:
+                raise RuntimeError("execution-mode=repo is currently supported with --backend docker or --backend agent-server")
+            prepare_repo_backed_task(args.task)
             workspace.execute_command(f"mkdir -p {remote_output_dir}")
         else:
             workspace.execute_command(f"mkdir -p {REMOTE_INPUT_DIR} {REMOTE_OUTPUT_DIR}")
@@ -596,7 +620,9 @@ def main() -> int:
         print(json.dumps(metrics, indent=2))
         return 0 if verification.passed else 1
     finally:
-        workspace.cleanup()
+        cleanup = getattr(workspace, "cleanup", None)
+        if callable(cleanup):
+            cleanup()
 
 
 if __name__ == "__main__":
