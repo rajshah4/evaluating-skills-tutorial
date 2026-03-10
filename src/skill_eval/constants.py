@@ -6,6 +6,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 RESULTS_DIR = ROOT / "results"
+TASK_REPOS_DIR = ROOT / "task_repos"
 
 REMOTE_PROJECT_DIR = "/workspace/project"
 REMOTE_INPUT_DIR = f"{REMOTE_PROJECT_DIR}/input"
@@ -33,6 +34,10 @@ class TaskConfig:
     @property
     def expected_output(self) -> Path:
         return self.task_dir / self.expected_name
+
+    @property
+    def local_repo_dir(self) -> Path:
+        return TASK_REPOS_DIR / self.dir_name
 
     @property
     def remote_output(self) -> str:

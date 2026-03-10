@@ -54,6 +54,21 @@ tasks/my_new_task/
     sample_input.json
 ```
 
+If you want repo-backed runs as well, also create:
+
+```text
+task_repos/my_new_task/
+  input/
+  output/
+```
+
+Keep `output/` empty except for a committed `.gitkeep`.
+
+That same layout is used by:
+
+- local Docker repo-backed runs, which mount the repo directly
+- Cloud repo-backed runs, where OpenHands clones the GitHub repo and writes into the task folder there
+
 ## Step 2: Define The Output Contract
 
 Pick one output artifact the agent must write.
@@ -81,6 +96,8 @@ You need to define:
 - optional condition-specific input files
 
 This is what lets `scripts/run_eval.py` know what to upload, where to download the artifact, and which verifier data to use.
+
+If you are using repo-backed runs, keep the task repo folder name aligned with `dir_name`.
 
 ## Step 4: Add Verifier Logic
 
@@ -113,6 +130,18 @@ skills/my_new_task/improved/SKILL.md
 ```
 
 The runner will look for task-specific skills first.
+
+If you also want Cloud repo-backed V1 runs to discover the skill automatically, add a flat project skill file under:
+
+```text
+.openhands/skills/my_new_task_improved.md
+```
+
+Current state of the world:
+
+- `skills/.../SKILL.md` is the SDK-oriented path used by local/Docker runs and explicit SDK skill injection.
+- `.openhands/skills/*.md` is the project-skill layout the current Cloud V1 runtime discovers in repo-backed runs.
+- This split is awkward, but it reflects the current V1 versus SDK control-plane behavior.
 
 A useful skill should encode:
 
@@ -163,6 +192,16 @@ Compare:
 - runtime
 - event count
 - traces, if you have observability enabled
+
+If you want to test a repo-backed path specifically, run one of these:
+
+```bash
+uv run python scripts/run_eval.py --task <task-name> --backend docker --execution-mode repo --condition improved-skill
+```
+
+```bash
+uv run python scripts/run_eval.py --task <task-name> --backend cloud --execution-mode repo --condition improved-skill --cloud-repo <owner/repo>
+```
 
 ## Step 9: Add Model Matrix Runs If Useful
 

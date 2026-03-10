@@ -35,6 +35,8 @@ That mix is useful. Skills are hypotheses, not guarantees.
   Inputs, prompts, and expected outputs
 - `skills/`
   Skill variants used by each task
+- `.openhands/skills/`
+  Repo-native project skills used by Cloud repo-backed V1 runs
 - `scripts/run_eval.py`
   Run one task/condition through the OpenHands SDK
 - `scripts/run_model_matrix.py`
@@ -60,6 +62,8 @@ export OPENHANDS_CLOUD_API_KEY=...
 export LLM_API_KEY=...
 export LLM_MODEL=openhands/claude-sonnet-4-5-20250929
 ```
+
+Use both keys for the upload-based SDK path. For Cloud repo-backed runs, `OPENHANDS_CLOUD_API_KEY` is the required credential and the model is routed through OpenHands with `LLM_MODEL` or `--model`.
 
 Optional tracing:
 
@@ -105,6 +109,33 @@ uv run python scripts/run_eval.py --task sales-pivot-analysis --condition no-ski
 uv run python scripts/run_eval.py --task sales-pivot-analysis --condition improved-skill
 ```
 
+## Run With Repo-Backed OpenHands Cloud
+
+Use this when the task fixtures already live in a GitHub repo and you want Cloud to run directly against that repo instead of uploading files into a fresh workspace.
+
+```bash
+uv run python scripts/run_eval.py \
+  --task sec-financial-report \
+  --backend cloud \
+  --execution-mode repo \
+  --condition improved-skill \
+  --cloud-repo rajshah4/evaluating-skills-tutorial
+```
+
+Cloud repo-backed mode uses the V1 app conversations API. The repo must be reachable from OpenHands Cloud.
+For this V1 runtime path, project skills are currently discovered from `.openhands/skills/*.md`.
+
+Current limitation:
+
+- Cloud V1 app conversations and SDK `Conversation + OpenHandsCloudWorkspace` do not expose the same level of agent customization.
+- In practice, Cloud V1 repo-backed runs are the best path for repo-native skill discovery, while the SDK path is still the best path when you need exact manual skill injection.
+- This is the same control-plane split discussed in [OpenHands/OpenHands#13268](https://github.com/OpenHands/OpenHands/issues/13268).
+
+This should improve over time. For now, this repo keeps both:
+
+- `skills/` for SDK-driven runs
+- `.openhands/skills/*.md` for Cloud repo-backed V1 runs
+
 ## Run With Local Docker
 
 Use this when you want a locally hosted OpenHands runtime and richer traces.
@@ -129,6 +160,26 @@ Sales pivot analysis:
 uv run python scripts/run_eval.py --task sales-pivot-analysis --backend docker --condition no-skill
 uv run python scripts/run_eval.py --task sales-pivot-analysis --backend docker --condition improved-skill
 ```
+
+## Run With Local Repo-Backed Docker
+
+Use this when you want the agent to work directly against task files that already live in the repo, instead of uploading fixtures into an empty sandbox.
+
+This mode currently supports Docker only:
+
+```bash
+uv run python scripts/run_eval.py \
+  --task sec-financial-report \
+  --backend docker \
+  --execution-mode repo \
+  --condition improved-skill
+```
+
+In repo-backed mode, the runner mounts this repo into the container at `/workspace` and the agent works directly inside:
+
+- `/workspace/task_repos/software_dependency_audit`
+- `/workspace/task_repos/sec_financial_report`
+- `/workspace/task_repos/sales_pivot_analysis`
 
 Each run writes:
 
@@ -203,7 +254,7 @@ This tutorial uses Laminar as the example tracing backend, but the evaluation lo
 
 ## Cloud vs Docker
 
-Both backends work. OpenHands Cloud is the fastest way to run the tutorial. Docker is the better choice when you want a locally hosted runtime, richer traces, and more control over the environment.
+Both backends work. OpenHands Cloud is the fastest way to start, either with uploaded fixtures or a GitHub-backed repo conversation. Docker is the better choice when you want a locally hosted runtime, richer traces, and exact SDK-side agent control.
 
 ## Extend This Tutorial
 

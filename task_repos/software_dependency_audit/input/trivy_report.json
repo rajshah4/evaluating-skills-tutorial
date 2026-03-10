@@ -1,0 +1,53 @@
+{
+  "Results": [
+    {
+      "Target": "package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2024-29415",
+          "PkgName": "ip",
+          "InstalledVersion": "2.0.0",
+          "FixedVersion": "N/A",
+          "Severity": "HIGH",
+          "Title": "node-ip: Incomplete fix for CVE-2023-42282",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-29415",
+          "CVSS": {
+            "nvd": {
+              "V3Score": 8.1
+            }
+          }
+        },
+        {
+          "VulnerabilityID": "CVE-2022-25883",
+          "PkgName": "semver",
+          "InstalledVersion": "7.3.7",
+          "FixedVersion": "7.5.2, 6.3.1, 5.7.2",
+          "Severity": "HIGH",
+          "Title": "nodejs-semver: Regular expression denial of service",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-25883",
+          "CVSS": {
+            "nvd": {
+              "V3Score": 7.5
+            }
+          }
+        },
+        {
+          "VulnerabilityID": "CVE-2026-23745",
+          "PkgName": "tar",
+          "InstalledVersion": "6.1.11",
+          "FixedVersion": "7.5.3",
+          "Severity": "HIGH",
+          "Title": "node-tar: tar: node-tar: Arbitrary file overwrite and symlink poisoning via unsanitized linkpaths in archives",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-23745",
+          "CVSS": {
+            "nvd": {
+              "V3Score": 8.2
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
