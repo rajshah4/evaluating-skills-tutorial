@@ -161,9 +161,11 @@ Saved outputs:
 - [runtime](results/visuals/runtime_by_task.svg)
 - [model scorecard](results/visuals/model_scorecard.svg)
 
-Example visual:
+Example visuals:
 
 ![Pass rate by task](results/visuals/pass_rate_by_task.svg)
+
+![Model breakdown by task](results/visuals/model_breakdown_by_task.svg)
 
 ## Compare Models
 

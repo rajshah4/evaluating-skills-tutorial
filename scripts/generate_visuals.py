@@ -268,6 +268,94 @@ def draw_scorecard(rows: list[dict[str, object]]) -> None:
     (VISUALS_DIR / "model_scorecard.svg").write_text("".join(parts), encoding="utf-8")
 
 
+def draw_task_breakdown(rows: list[dict[str, object]]) -> None:
+    grouped: dict[tuple[str, str, str], dict[str, object]] = {}
+    for row in rows:
+        grouped[(row["task"], row["condition"], row["model"])] = row
+    max_runtime = max(float(row["runtime_seconds"]) for row in rows)
+
+    width = 1100
+    section_h = 240
+    height = 110 + section_h * len(TASK_ORDER)
+    left = 60
+    label_w = 230
+    col_w = 350
+    row_h = 30
+    parts = [svg_header(width, height)]
+    parts.append(
+        f'<text x="{left}" y="52" font-size="30" font-weight="700" fill="{TEXT_COLOR}" '
+        f'font-family="Georgia, serif">Model breakdown by task</text>'
+    )
+    parts.append(
+        f'<text x="{left}" y="80" font-size="15" fill="{MUTED_COLOR}" '
+        f'font-family="Helvetica, Arial, sans-serif">Each task gets its own section, with pass/fail and runtime bars for no-skill vs improved-skill.</text>'
+    )
+
+    for section_idx, task in enumerate(TASK_ORDER):
+        top = 110 + section_idx * section_h
+        parts.append(
+            f'<rect x="{left}" y="{top}" width="{width - left * 2}" height="{section_h - 22}" rx="18" fill="white" opacity="0.72" stroke="{GRID_COLOR}"/>'
+        )
+        parts.append(
+            f'<text x="{left + 20}" y="{top + 30}" font-size="24" font-weight="700" fill="{TEXT_COLOR}" '
+            f'font-family="Georgia, serif">{escape(TASK_LABELS[task])}</text>'
+        )
+        col_positions = {
+            "no-skill": left + label_w + 40,
+            "improved-skill": left + label_w + 40 + col_w + 30,
+        }
+        for condition in CONDITION_ORDER:
+            x = col_positions[condition]
+            color = NO_SKILL_COLOR if condition == "no-skill" else SKILL_COLOR
+            parts.append(f'<rect x="{x}" y="{top + 14}" width="16" height="16" rx="4" fill="{color}"/>')
+            parts.append(
+                f'<text x="{x + 24}" y="{top + 28}" font-size="14" fill="{TEXT_COLOR}" '
+                f'font-family="Helvetica, Arial, sans-serif">{escape(CONDITION_LABELS[condition])}</text>'
+            )
+
+        for row_idx, model in enumerate(MODEL_ORDER):
+            y = top + 58 + row_idx * row_h
+            parts.append(
+                f'<text x="{left + 20}" y="{y + 16}" font-size="14" fill="{TEXT_COLOR}" '
+                f'font-family="Helvetica, Arial, sans-serif">{escape(MODEL_LABELS[model])}</text>'
+            )
+            for condition in CONDITION_ORDER:
+                x = col_positions[condition]
+                row = grouped[(task, condition, model)]
+                passed = bool(row["passed"])
+                runtime = float(row["runtime_seconds"])
+                bar_track_x = x + 92
+                bar_track_w = 220
+                bar_w = max(8, (runtime / max_runtime) * bar_track_w)
+                badge_fill = PASS_COLOR if passed else FAIL_COLOR
+                badge_label = "PASS" if passed else "FAIL"
+                parts.append(
+                    f'<rect x="{x}" y="{y}" width="56" height="20" rx="10" fill="{badge_fill}"/>'
+                )
+                parts.append(
+                    f'<text x="{x + 28}" y="{y + 14}" text-anchor="middle" font-size="11" font-weight="700" fill="white" '
+                    f'font-family="Helvetica, Arial, sans-serif">{badge_label}</text>'
+                )
+                parts.append(
+                    f'<rect x="{bar_track_x}" y="{y + 4}" width="{bar_track_w}" height="12" rx="6" fill="{GRID_COLOR}"/>'
+                )
+                parts.append(
+                    f'<rect x="{bar_track_x}" y="{y + 4}" width="{bar_w:.1f}" height="12" rx="6" fill="{badge_fill}"/>'
+                )
+                parts.append(
+                    f'<text x="{x + 326}" y="{y + 14}" text-anchor="end" font-size="12" fill="{TEXT_COLOR}" '
+                    f'font-family="Helvetica, Arial, sans-serif">{runtime:.1f}s</text>'
+                )
+
+    legend_y = height - 18
+    parts.append(
+        f'<text x="{left}" y="{legend_y}" font-size="13" fill="{MUTED_COLOR}" '
+        f'font-family="Helvetica, Arial, sans-serif">Longer bars mean longer runtime, scaled to the slowest run in the full matrix.</text>'
+    )
+    parts.append("</svg>")
+    (VISUALS_DIR / "model_breakdown_by_task.svg").write_text("".join(parts), encoding="utf-8")
+
+
 def write_dashboard(rows: list[dict[str, object]]) -> None:
     pass_rates = pass_rate_data(rows)
     avg_runtime = average_data(rows, "runtime_seconds")
@@ -401,6 +489,9 @@ def write_dashboard(rows: list[dict[str, object]]) -> None:
     <section class="panel">
       <img src="model_scorecard.svg" alt="Model scorecard" />
     </section>
+    <section class="panel">
+      <img src="model_breakdown_by_task.svg" alt="Model breakdown by task" />
+    </section>
   </main>
 </body>
 </html>
@@ -428,6 +519,7 @@ def main() -> int:
         file_name="runtime_by_task.svg",
     )
     draw_scorecard(rows)
+    draw_task_breakdown(rows)
     write_dashboard(rows)
     print(f"Wrote visuals to {VISUALS_DIR.relative_to(ROOT)}")
     return 0
