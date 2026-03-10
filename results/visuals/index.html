@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OpenHands Skill Eval Visuals</title>
+  <style>
+    :root {
+      --bg: #f8f4ec;
+      --panel: #fffdf8;
+      --ink: #1c1b1a;
+      --muted: #6a645d;
+      --line: #d8d2c8;
+      --accent: #0b6e4f;
+      --warm: #d97b29;
+    }
+    body {
+      margin: 0;
+      font-family: Helvetica, Arial, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top right, #efe7d8 0, transparent 35%),
+        linear-gradient(180deg, #f8f4ec, #f1ebdf);
+    }
+    main {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 40px 24px 56px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-family: Georgia, serif;
+      font-size: 42px;
+    }
+    p.lead {
+      max-width: 780px;
+      color: var(--muted);
+      line-height: 1.5;
+      margin: 0 0 28px;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px 20px;
+      box-shadow: 0 10px 24px rgba(28, 27, 26, 0.05);
+    }
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      font-family: Georgia, serif;
+    }
+    .metric {
+      margin: 0;
+      font-size: 30px;
+      font-weight: 700;
+    }
+    .delta {
+      margin: 10px 0 0;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .sub {
+      margin: 6px 0 0;
+      color: var(--muted);
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 24px rgba(28, 27, 26, 0.05);
+    }
+    .panel img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 14px;
+    }
+    @media (max-width: 960px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+      h1 {
+        font-size: 34px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>OpenHands Skill Evaluation Results</h1>
+    <p class="lead">These visuals summarize the model-specific runs across the three tutorial tasks. They focus on the cleanest comparison points: pass rate, runtime, and per-model outcomes for the no-skill vs improved-skill conditions.</p>
+    <section class="cards">
+      
+            <div class="card">
+              <h3>Dependency audit</h3>
+              <p class="metric">100% vs 0%</p>
+              <p class="sub">Improved skill vs no skill pass rate</p>
+              <p class="delta">+100 pts</p>
+              <p class="sub">Avg runtime: 97.9s vs 239.7s</p>
+            </div>
+            
+            <div class="card">
+              <h3>SEC financial report</h3>
+              <p class="metric">100% vs 80%</p>
+              <p class="sub">Improved skill vs no skill pass rate</p>
+              <p class="delta">+20 pts</p>
+              <p class="sub">Avg runtime: 69.0s vs 80.9s</p>
+            </div>
+            
+            <div class="card">
+              <h3>Sales pivot analysis</h3>
+              <p class="metric">80% vs 100%</p>
+              <p class="sub">Improved skill vs no skill pass rate</p>
+              <p class="delta">-20 pts</p>
+              <p class="sub">Avg runtime: 294.7s vs 284.5s</p>
+            </div>
+            
+    </section>
+    <section class="panel">
+      <img src="pass_rate_by_task.svg" alt="Pass rate by task" />
+    </section>
+    <section class="panel">
+      <img src="runtime_by_task.svg" alt="Average runtime by task" />
+    </section>
+    <section class="panel">
+      <img src="model_scorecard.svg" alt="Model scorecard" />
+    </section>
+  </main>
+</body>
+</html>

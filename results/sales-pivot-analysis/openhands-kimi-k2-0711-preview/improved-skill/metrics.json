@@ -1,0 +1,14 @@
+{
+  "task": "sales-pivot-analysis",
+  "condition": "improved-skill",
+  "backend": "docker",
+  "model": "openhands/kimi-k2-0711-preview",
+  "model_label": "openhands-kimi-k2-0711-preview",
+  "passed": true,
+  "message": "result.xlsx contains the expected sheets and derived values",
+  "runtime_seconds": 601.37,
+  "event_count": 65,
+  "item_count": 10,
+  "sandbox_id": null,
+  "remote_output": "/workspace/project/output/result.xlsx"
+}

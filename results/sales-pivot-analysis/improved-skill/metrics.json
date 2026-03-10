@@ -1,0 +1,12 @@
+{
+  "task": "sales-pivot-analysis",
+  "condition": "improved-skill",
+  "backend": "docker",
+  "passed": true,
+  "message": "result.xlsx contains the expected sheets and derived values",
+  "runtime_seconds": 133.41,
+  "event_count": 32,
+  "item_count": 10,
+  "sandbox_id": null,
+  "remote_output": "/workspace/project/output/result.xlsx"
+}

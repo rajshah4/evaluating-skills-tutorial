@@ -1,0 +1,37 @@
+You are analyzing a small spreadsheet-style sales task inside an OpenHands sandbox.
+
+Context:
+- Work inside `{remote_project_dir}`.
+- The inputs are:
+  - `{remote_project_dir}/input/income.xlsx`
+  - `{remote_project_dir}/input/population.pdf`
+- Write exactly one workbook to `{remote_report}`.
+
+Task:
+- Read the income workbook and the population PDF.
+- Create a result workbook that combines both sources.
+- The workbook must contain these sheets:
+  - `CombinedData`
+  - `Summary`
+- `CombinedData` should include one row per city with revenue and population.
+- `Summary` should include total revenue, total population, and revenue per capita by city.
+
+Rules:
+- Use only the provided local files.
+- Do not browse the internet.
+- Do not install anything.
+- Do not use `pip`, `apt`, or any other package installer.
+- Keep the result deterministic.
+- It is fine to use a normal worksheet table instead of a native Excel pivot object.
+- The important part is that the final workbook contains the expected sheets and resulting values.
+
+Expected structure:
+- `CombinedData` columns:
+  - City
+  - Region
+  - Revenue_MUSD
+  - Population_M
+  - Revenue_per_Capita
+- `Summary` should contain labeled values and the city-level revenue per capita table.
+
+Round `Revenue_per_Capita` values to two decimal places.

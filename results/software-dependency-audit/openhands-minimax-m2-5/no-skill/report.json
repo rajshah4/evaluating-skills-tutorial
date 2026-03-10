@@ -1,0 +1,294 @@
+{
+  "findings": [
+    {
+      "package": "@babel/traverse",
+      "version": "7.17.3",
+      "cve_id": "GHSA-67hx-6x53-jw92",
+      "severity": "CRITICAL",
+      "cvss_score": "9.4",
+      "fixed_version": "N/A",
+      "title": "Babel vulnerable to arbitrary code execution when compiling specifically crafted malicious code",
+      "url": "https://github.com/advisories/GHSA-67hx-6x53-jw92"
+    },
+    {
+      "package": "@xmldom/xmldom",
+      "version": "0.8.3",
+      "cve_id": "GHSA-crh6-fp67-6883",
+      "severity": "CRITICAL",
+      "cvss_score": "9.8",
+      "fixed_version": "N/A",
+      "title": "xmldom allows multiple root nodes in a DOM",
+      "url": "https://github.com/advisories/GHSA-crh6-fp67-6883"
+    },
+    {
+      "package": "form-data",
+      "version": "4.0.0",
+      "cve_id": "GHSA-fjxv-7rqg-78g4",
+      "severity": "CRITICAL",
+      "cvss_score": "N/A",
+      "fixed_version": "21.6.2",
+      "title": "form-data uses unsafe random function in form-data for choosing boundary",
+      "url": "https://github.com/advisories/GHSA-fjxv-7rqg-78g4"
+    },
+    {
+      "package": "request",
+      "version": "2.88.2",
+      "cve_id": "GHSA-p8p7-x288-28g6",
+      "severity": "CRITICAL",
+      "cvss_score": "6.1",
+      "fixed_version": "21.6.2",
+      "title": "Server-Side Request Forgery in Request",
+      "url": "https://github.com/advisories/GHSA-p8p7-x288-28g6"
+    },
+    {
+      "package": "braces",
+      "version": "3.0.2",
+      "cve_id": "GHSA-grv7-fg5c-xmjg",
+      "severity": "HIGH",
+      "cvss_score": "7.5",
+      "fixed_version": "N/A",
+      "title": "Uncontrolled resource consumption in braces",
+      "url": "https://github.com/advisories/GHSA-grv7-fg5c-xmjg"
+    },
+    {
+      "package": "cross-spawn",
+      "version": "7.0.3",
+      "cve_id": "GHSA-3xgq-45jj-v275",
+      "severity": "HIGH",
+      "cvss_score": "7.5",
+      "fixed_version": "N/A",
+      "title": "Regular Expression Denial of Service (ReDoS) in cross-spawn",
+      "url": "https://github.com/advisories/GHSA-3xgq-45jj-v275"
+    },
+    {
+      "package": "ip",
+      "version": "2.0.0",
+      "cve_id": "GHSA-2p57-rm9w-gvfp",
+      "severity": "HIGH",
+      "cvss_score": "8.1",
+      "fixed_version": "N/A",
+      "title": "ip SSRF improper categorization in isPublic",
+      "url": "https://github.com/advisories/GHSA-2p57-rm9w-gvfp"
+    },
+    {
+      "package": "ip",
+      "version": "2.0.0",
+      "cve_id": "GHSA-78xj-cgh5-2h22",
+      "severity": "HIGH",
+      "cvss_score": "N/A",
+      "fixed_version": "N/A",
+      "title": "NPM IP package incorrectly identifies some private IP addresses as public",
+      "url": "https://github.com/advisories/GHSA-78xj-cgh5-2h22"
+    },
+    {
+      "package": "json5",
+      "version": "2.2.1",
+      "cve_id": "GHSA-9c47-m6qq-7p4h",
+      "severity": "HIGH",
+      "cvss_score": "7.1",
+      "fixed_version": "N/A",
+      "title": "Prototype Pollution in JSON5 via Parse Method",
+      "url": "https://github.com/advisories/GHSA-9c47-m6qq-7p4h"
+    },
+    {
+      "package": "jsonpath",
+      "version": "1.1.1",
+      "cve_id": "GHSA-6c59-mwgh-r2x6",
+      "severity": "HIGH",
+      "cvss_score": "N/A",
+      "fixed_version": "N/A",
+      "title": "JSONPath vulnerable to Prototype Pollution due to insufficient input validation of object keys in lib/index.js",
+      "url": "https://github.com/advisories/GHSA-6c59-mwgh-r2x6"
+    },
+    {
+      "package": "jsonpath",
+      "version": "1.1.1",
+      "cve_id": "GHSA-87r5-mp6g-5w5j",
+      "severity": "HIGH",
+      "cvss_score": "9.8",
+      "fixed_version": "N/A",
+      "title": "jsonpath has Arbitrary Code Injection via Unsafe Evaluation of JSON Path Expressions",
+      "url": "https://github.com/advisories/GHSA-87r5-mp6g-5w5j"
+    },
+    {
+      "package": "marked",
+      "version": "0.7.0",
+      "cve_id": "GHSA-5v2h-r2cx-5xgj",
+      "severity": "HIGH",
+      "cvss_score": "7.5",
+      "fixed_version": "2.1.0",
+      "title": "Inefficient Regular Expression Complexity in marked",
+      "url": "https://github.com/advisories/GHSA-5v2h-r2cx-5xgj"
+    },
+    {
+      "package": "marked",
+      "version": "0.7.0",
+      "cve_id": "GHSA-rrrm-qjm4-v8hf",
+      "severity": "HIGH",
+      "cvss_score": "7.5",
+      "fixed_version": "2.1.0",
+      "title": "Inefficient Regular Expression Complexity in marked",
+      "url": "https://github.com/advisories/GHSA-rrrm-qjm4-v8hf"
+    },
+    {
+      "package": "minimatch",
+      "version": "3.1.2",
+      "cve_id": "GHSA-23c5-xmqv-rm74",
+      "severity": "HIGH",
+      "cvss_score": "7.5",
+      "fixed_version": "N/A",
+      "title": "minimatch ReDoS: nested *() extglobs generate catastrophically backtracking regular expressions",
+      "url": "https://github.com/advisories/GHSA-23c5-xmqv-rm74"
+    },
+    {
+      "package": "minimatch",
+      "version": "3.1.2",
+      "cve_id": "GHSA-3ppc-4f35-3m26",
+      "severity": "HIGH",
+      "cvss_score": "N/A",
+      "fixed_version": "N/A",
+      "title": "minimatch has a ReDoS via repeated wildcards with non-matching literal in pattern",
+      "url": "https://github.com/advisories/GHSA-3ppc-4f35-3m26"
+    },
+    {
+      "package": "minimatch",
+      "version": "3.1.2",
+      "cve_id": "GHSA-7r86-cg39-jmmj",
+      "severity": "HIGH",
+      "cvss_score": "7.5",
+      "fixed_version": "N/A",
+      "title": "minimatch has ReDoS: matchOne() combinatorial backtracking via multiple non-adjacent GLOBSTAR segments",
+      "url": "https://github.com/advisories/GHSA-7r86-cg39-jmmj"
+    },
+    {
+      "package": "semver",
+      "version": "5.7.1",
+      "cve_id": "GHSA-c2qf-rxjj-qqgw",
+      "severity": "HIGH",
+      "cvss_score": "7.5",
+      "fixed_version": "N/A",
+      "title": "semver vulnerable to Regular Expression Denial of Service",
+      "url": "https://github.com/advisories/GHSA-c2qf-rxjj-qqgw"
+    },
+    {
+      "package": "tar",
+      "version": "6.1.11",
+      "cve_id": "GHSA-34x7-hfp2-rc4v",
+      "severity": "HIGH",
+      "cvss_score": "8.2",
+      "fixed_version": "7.5.11",
+      "title": "node-tar Vulnerable to Arbitrary File Creation/Overwrite via Hardlink Path Traversal",
+      "url": "https://github.com/advisories/GHSA-34x7-hfp2-rc4v"
+    },
+    {
+      "package": "tar",
+      "version": "6.1.11",
+      "cve_id": "GHSA-83g3-92jg-28cx",
+      "severity": "HIGH",
+      "cvss_score": "7.1",
+      "fixed_version": "7.5.11",
+      "title": "Arbitrary File Read/Write via Hardlink Target Escape Through Symlink Chain in node-tar Extraction",
+      "url": "https://github.com/advisories/GHSA-83g3-92jg-28cx"
+    },
+    {
+      "package": "tar",
+      "version": "6.1.11",
+      "cve_id": "GHSA-8qq5-rm4j-mr97",
+      "severity": "HIGH",
+      "cvss_score": "N/A",
+      "fixed_version": "7.5.11",
+      "title": "node-tar is Vulnerable to Arbitrary File Overwrite and Symlink Poisoning via Insufficient Path Sanitization",
+      "url": "https://github.com/advisories/GHSA-8qq5-rm4j-mr97"
+    },
+    {
+      "package": "tar",
+      "version": "6.1.11",
+      "cve_id": "GHSA-f5x3-32g6-xq36",
+      "severity": "HIGH",
+      "cvss_score": "6.5",
+      "fixed_version": "7.5.11",
+      "title": "Denial of service while parsing a tar file due to lack of folders count validation",
+      "url": "https://github.com/advisories/GHSA-f5x3-32g6-xq36"
+    },
+    {
+      "package": "tar",
+      "version": "6.1.11",
+      "cve_id": "GHSA-qffp-2rhf-9h96",
+      "severity": "HIGH",
+      "cvss_score": "N/A",
+      "fixed_version": "7.5.11",
+      "title": "tar has Hardlink Path Traversal via Drive-Relative Linkpath",
+      "url": "https://github.com/advisories/GHSA-qffp-2rhf-9h96"
+    },
+    {
+      "package": "tar",
+      "version": "6.1.11",
+      "cve_id": "GHSA-r6q2-hw4h-h46w",
+      "severity": "HIGH",
+      "cvss_score": "8.8",
+      "fixed_version": "7.5.11",
+      "title": "Race Condition in node-tar Path Reservations via Unicode Ligature Collisions on macOS APFS",
+      "url": "https://github.com/advisories/GHSA-r6q2-hw4h-h46w"
+    },
+    {
+      "package": "tar-fs",
+      "version": "2.1.1",
+      "cve_id": "GHSA-8cj5-5rvv-wf4v",
+      "severity": "HIGH",
+      "cvss_score": "N/A",
+      "fixed_version": "N/A",
+      "title": "tar-fs can extract outside the specified dir with a specific tarball",
+      "url": "https://github.com/advisories/GHSA-8cj5-5rvv-wf4v"
+    },
+    {
+      "package": "tar-fs",
+      "version": "2.1.1",
+      "cve_id": "GHSA-pq67-2wwv-3xjx",
+      "severity": "HIGH",
+      "cvss_score": "7.5",
+      "fixed_version": "N/A",
+      "title": "tar-fs Vulnerable to Link Following and Path Traversal via Extracting a Crafted tar File",
+      "url": "https://github.com/advisories/GHSA-pq67-2wwv-3xjx"
+    },
+    {
+      "package": "tar-fs",
+      "version": "2.1.1",
+      "cve_id": "GHSA-vj76-c3g6-qr5v",
+      "severity": "HIGH",
+      "cvss_score": "N/A",
+      "fixed_version": "N/A",
+      "title": "tar-fs has a symlink validation bypass if destination directory is predictable with a specific tarball",
+      "url": "https://github.com/advisories/GHSA-vj76-c3g6-qr5v"
+    },
+    {
+      "package": "underscore",
+      "version": "1.12.1",
+      "cve_id": "GHSA-qpx9-hpmf-5gmw",
+      "severity": "HIGH",
+      "cvss_score": "N/A",
+      "fixed_version": "N/A",
+      "title": "Underscore has unlimited recursion in _.flatten and _.isEqual, potential for DoS attack",
+      "url": "https://github.com/advisories/GHSA-qpx9-hpmf-5gmw"
+    },
+    {
+      "package": "ws",
+      "version": "7.5.7",
+      "cve_id": "GHSA-3h5v-q93c-6h6q",
+      "severity": "HIGH",
+      "cvss_score": "7.5",
+      "fixed_version": "N/A",
+      "title": "ws affected by a DoS when handling a request with many HTTP headers",
+      "url": "https://github.com/advisories/GHSA-3h5v-q93c-6h6q"
+    },
+    {
+      "package": "yaml",
+      "version": "2.1.1",
+      "cve_id": "GHSA-f9xv-q969-pqx4",
+      "severity": "HIGH",
+      "cvss_score": "7.5",
+      "fixed_version": "N/A",
+      "title": "Uncaught Exception in yaml",
+      "url": "https://github.com/advisories/GHSA-f9xv-q969-pqx4"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "required_fields": [
+    "company",
+    "currency",
+    "q2_revenue_musd",
+    "q3_revenue_musd",
+    "q2_net_income_musd",
+    "q3_net_income_musd",
+    "revenue_growth_pct",
+    "net_income_growth_pct",
+    "q3_operating_margin_pct",
+    "higher_revenue_quarter",
+    "summary"
+  ],
+  "exact_values": {
+    "company": "Redwood Systems",
+    "currency": "USD",
+    "higher_revenue_quarter": "2025-q3"
+  },
+  "numeric_values": {
+    "q2_revenue_musd": {
+      "value": 1240.0,
+      "tolerance": 0.01
+    },
+    "q3_revenue_musd": {
+      "value": 1375.0,
+      "tolerance": 0.01
+    },
+    "q2_net_income_musd": {
+      "value": 142.0,
+      "tolerance": 0.01
+    },
+    "q3_net_income_musd": {
+      "value": 181.5,
+      "tolerance": 0.01
+    },
+    "revenue_growth_pct": {
+      "value": 10.89,
+      "tolerance": 0.01
+    },
+    "net_income_growth_pct": {
+      "value": 27.82,
+      "tolerance": 0.01
+    },
+    "q3_operating_margin_pct": {
+      "value": 17.0,
+      "tolerance": 0.01
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "task": "sales-pivot-analysis",
+  "condition": "no-skill",
+  "backend": "docker",
+  "model": "openhands/gemini-3-flash-preview",
+  "model_label": "openhands-gemini-3-flash-preview",
+  "passed": true,
+  "message": "result.xlsx contains the expected sheets and derived values",
+  "runtime_seconds": 133.42,
+  "event_count": 51,
+  "item_count": 10,
+  "sandbox_id": null,
+  "remote_output": "/workspace/project/output/result.xlsx"
+}

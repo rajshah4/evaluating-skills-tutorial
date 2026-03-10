@@ -1,0 +1,14 @@
+{
+  "task": "sec-financial-report",
+  "condition": "improved-skill",
+  "backend": "docker",
+  "model": "openhands/kimi-k2-0711-preview",
+  "model_label": "openhands-kimi-k2-0711-preview",
+  "passed": true,
+  "message": "answers.json matches the expected financial extraction and calculations",
+  "runtime_seconds": 66.58,
+  "event_count": 19,
+  "item_count": 11,
+  "sandbox_id": null,
+  "remote_output": "/workspace/project/output/answers.json"
+}

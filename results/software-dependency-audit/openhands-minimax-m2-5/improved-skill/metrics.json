@@ -1,0 +1,14 @@
+{
+  "task": "software-dependency-audit",
+  "condition": "improved-skill",
+  "backend": "docker",
+  "model": "openhands/minimax-m2.5",
+  "model_label": "openhands-minimax-m2-5",
+  "passed": true,
+  "message": "report.json matches the expected benchmark findings",
+  "runtime_seconds": 77.99,
+  "event_count": 19,
+  "item_count": 3,
+  "sandbox_id": null,
+  "remote_output": "/workspace/project/output/report.json"
+}

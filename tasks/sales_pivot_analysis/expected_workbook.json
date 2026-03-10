@@ -1,0 +1,53 @@
+{
+  "required_sheets": [
+    "CombinedData",
+    "Summary"
+  ],
+  "combined_data": {
+    "required_columns": [
+      "City",
+      "Region",
+      "Revenue_MUSD",
+      "Population_M",
+      "Revenue_per_Capita"
+    ],
+    "rows": {
+      "Austin": {
+        "Region": "South",
+        "Revenue_MUSD": 50.0,
+        "Population_M": 5.0,
+        "Revenue_per_Capita": 10.0
+      },
+      "Chicago": {
+        "Region": "Midwest",
+        "Revenue_MUSD": 100.0,
+        "Population_M": 3.0,
+        "Revenue_per_Capita": 33.33
+      },
+      "Denver": {
+        "Region": "West",
+        "Revenue_MUSD": 80.0,
+        "Population_M": 4.0,
+        "Revenue_per_Capita": 20.0
+      },
+      "Seattle": {
+        "Region": "West",
+        "Revenue_MUSD": 180.0,
+        "Population_M": 7.5,
+        "Revenue_per_Capita": 24.0
+      }
+    }
+  },
+  "summary": {
+    "totals": {
+      "Total Revenue": 410.0,
+      "Total Population": 19.5
+    },
+    "city_revenue_per_capita": {
+      "Austin": 10.0,
+      "Chicago": 33.33,
+      "Denver": 20.0,
+      "Seattle": 24.0
+    }
+  }
+}

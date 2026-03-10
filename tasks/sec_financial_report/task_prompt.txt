@@ -1,0 +1,38 @@
+You are analyzing a small SEC-style financial reporting task inside an OpenHands sandbox.
+
+Context:
+- Work inside `{remote_project_dir}`.
+- Input files are under `{remote_project_dir}/input/2025-q2/` and `{remote_project_dir}/input/2025-q3/`.
+- Write exactly one JSON file to `{remote_report}`.
+
+Task:
+- Read the Q2 and Q3 reporting notes.
+- Extract the requested metrics.
+- Calculate the quarter-over-quarter revenue growth percentage.
+- Calculate the quarter-over-quarter net income growth percentage.
+- Calculate the Q3 operating margin percentage.
+
+Rules:
+- Use only the local provided inputs.
+- Do not browse the internet.
+- Do not install anything.
+- Keep the result deterministic.
+- Express numeric values as numbers, not strings.
+- Round derived percentages to two decimal places.
+
+Output schema:
+{{
+  "company": "string",
+  "currency": "USD",
+  "q2_revenue_musd": 0,
+  "q3_revenue_musd": 0,
+  "q2_net_income_musd": 0,
+  "q3_net_income_musd": 0,
+  "revenue_growth_pct": 0,
+  "net_income_growth_pct": 0,
+  "q3_operating_margin_pct": 0,
+  "higher_revenue_quarter": "2025-q2 or 2025-q3",
+  "summary": "short deterministic sentence"
+}}
+
+The output must match the values implied by the provided quarter files.

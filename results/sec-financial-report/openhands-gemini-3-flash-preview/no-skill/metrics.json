@@ -1,0 +1,14 @@
+{
+  "task": "sec-financial-report",
+  "condition": "no-skill",
+  "backend": "docker",
+  "model": "openhands/gemini-3-flash-preview",
+  "model_label": "openhands-gemini-3-flash-preview",
+  "passed": true,
+  "message": "answers.json matches the expected financial extraction and calculations",
+  "runtime_seconds": 89.51,
+  "event_count": 19,
+  "item_count": 11,
+  "sandbox_id": null,
+  "remote_output": "/workspace/project/output/answers.json"
+}

@@ -1,0 +1,13 @@
+{
+  "company": "Redwood Systems",
+  "currency": "USD",
+  "q2_revenue_musd": 1240.0,
+  "q3_revenue_musd": 1375.0,
+  "q2_net_income_musd": 142.0,
+  "q3_net_income_musd": 181.5,
+  "revenue_growth_pct": 10.89,
+  "net_income_growth_pct": 27.82,
+  "q3_operating_margin_pct": 17.01,
+  "higher_revenue_quarter": "2025-q3",
+  "summary": "Redwood Systems reported Q3 2025 revenue of $1,375M, up 10.89% QoQ, with net income of $181.5M, up 27.82% QoQ, and operating margin of 17.01%."
+}

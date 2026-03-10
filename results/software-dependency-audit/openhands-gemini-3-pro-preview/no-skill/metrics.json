@@ -1,0 +1,14 @@
+{
+  "task": "software-dependency-audit",
+  "condition": "no-skill",
+  "backend": "docker",
+  "model": "openhands/gemini-3-pro-preview",
+  "model_label": "openhands-gemini-3-pro-preview",
+  "passed": false,
+  "message": "report.json does not match the expected HIGH/CRITICAL vulnerability set",
+  "runtime_seconds": 434.32,
+  "event_count": 67,
+  "item_count": 13,
+  "sandbox_id": null,
+  "remote_output": "/workspace/project/output/report.json"
+}

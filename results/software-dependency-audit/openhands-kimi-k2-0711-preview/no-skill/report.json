@@ -1,0 +1,224 @@
+{
+  "findings": [
+    {
+      "package": "@babel/traverse",
+      "version": "7.17.3",
+      "cve_id": "GHSA-67hx-6x53-jw92",
+      "severity": "CRITICAL",
+      "cvss_score": "9.4",
+      "fixed_version": "7.23.2",
+      "title": "Babel vulnerable to arbitrary code execution when compiling specifically crafted malicious code",
+      "url": "https://github.com/advisories/GHSA-67hx-6x53-jw92"
+    },
+    {
+      "package": "@xmldom/xmldom",
+      "version": "0.8.3",
+      "cve_id": "GHSA-crh6-fp67-6883",
+      "severity": "CRITICAL",
+      "cvss_score": "9.8",
+      "fixed_version": "0.8.4",
+      "title": "xmldom allows multiple root nodes in a DOM",
+      "url": "https://github.com/advisories/GHSA-crh6-fp67-6883"
+    },
+    {
+      "package": "@commitlint/is-ignored",
+      "version": "17.1.0",
+      "cve_id": "GHSA-c2qf-rxjj-qqgw",
+      "severity": "HIGH",
+      "cvss_score": "7.5",
+      "fixed_version": "N/A",
+      "title": "semver vulnerable to Regular Expression Denial of Service",
+      "url": "https://github.com/advisories/GHSA-c2qf-rxjj-qqgw"
+    },
+    {
+      "package": "@npmcli/arborist",
+      "version": "5.6.3",
+      "cve_id": "N/A",
+      "severity": "HIGH",
+      "cvss_score": "N/A",
+      "fixed_version": "9.4.0",
+      "title": "Vulnerability via dependencies",
+      "url": "https://github.com/advisories"
+    },
+    {
+      "package": "@npmcli/metavuln-calculator",
+      "version": "3.1.1",
+      "cve_id": "N/A",
+      "severity": "HIGH",
+      "cvss_score": "N/A",
+      "fixed_version": "9.0.3",
+      "title": "Vulnerability via dependencies",
+      "url": "https://github.com/advisories"
+    },
+    {
+      "package": "@npmcli/run-script",
+      "version": "4.2.1",
+      "cve_id": "N/A",
+      "severity": "HIGH",
+      "cvss_score": "N/A",
+      "fixed_version": "10.0.4",
+      "title": "Vulnerability via node-gyp dependency",
+      "url": "https://github.com/advisories"
+    },
+    {
+      "package": "@npmcli/template-oss",
+      "version": "4.11.4",
+      "cve_id": "N/A",
+      "severity": "HIGH",
+      "cvss_score": "N/A",
+      "fixed_version": "4.29.0",
+      "title": "Vulnerability via dependencies",
+      "url": "https://github.com/advisories"
+    },
+    {
+      "package": "semver",
+      "version": "5.7.1",
+      "cve_id": "GHSA-c2qf-rxjj-qqgw",
+      "severity": "HIGH",
+      "cvss_score": "7.5",
+      "fixed_version": "5.7.2",
+      "title": "semver vulnerable to Regular Expression Denial of Service",
+      "url": "https://github.com/advisories/GHSA-c2qf-rxjj-qqgw"
+    },
+    {
+      "package": "semver",
+      "version": "6.3.0",
+      "cve_id": "GHSA-c2qf-rxjj-qqgw",
+      "severity": "HIGH",
+      "cvss_score": "7.5",
+      "fixed_version": "6.3.1",
+      "title": "semver vulnerable to Regular Expression Denial of Service",
+      "url": "https://github.com/advisories/GHSA-c2qf-rxjj-qqgw"
+    },
+    {
+      "package": "semver",
+      "version": "7.3.7",
+      "cve_id": "GHSA-c2qf-rxjj-qqgw",
+      "severity": "HIGH",
+      "cvss_score": "7.5",
+      "fixed_version": "7.5.2",
+      "title": "semver vulnerable to Regular Expression Denial of Service",
+      "url": "https://github.com/advisories/GHSA-c2qf-rxjj-qqgw"
+    },
+    {
+      "package": "socks",
+      "version": "2.7.0",
+      "cve_id": "N/A",
+      "severity": "HIGH",
+      "cvss_score": "N/A",
+      "fixed_version": "N/A",
+      "title": "Vulnerability via ip dependency",
+      "url": "https://github.com/advisories"
+    },
+    {
+      "package": "tar",
+      "version": "6.1.11",
+      "cve_id": "GHSA-r6q2-hw4h-h46w",
+      "severity": "HIGH",
+      "cvss_score": "8.8",
+      "fixed_version": "7.5.11",
+      "title": "Race Condition in node-tar Path Reservations via Unicode Ligature Collisions on macOS APFS",
+      "url": "https://github.com/advisories/GHSA-r6q2-hw4h-h46w"
+    },
+    {
+      "package": "tar",
+      "version": "6.1.11",
+      "cve_id": "GHSA-34x7-hfp2-rc4v",
+      "severity": "HIGH",
+      "cvss_score": "8.2",
+      "fixed_version": "7.5.7",
+      "title": "node-tar Vulnerable to Arbitrary File Creation/Overwrite via Hardlink Path Traversal",
+      "url": "https://github.com/advisories/GHSA-34x7-hfp2-rc4v"
+    },
+    {
+      "package": "tar",
+      "version": "6.1.11",
+      "cve_id": "GHSA-8qq5-rm4j-mr97",
+      "severity": "HIGH",
+      "cvss_score": "N/A",
+      "fixed_version": "7.5.2",
+      "title": "node-tar is Vulnerable to Arbitrary File Overwrite and Symlink Poisoning via Insufficient Path Sanitization",
+      "url": "https://github.com/advisories/GHSA-8qq5-rm4j-mr97"
+    },
+    {
+      "package": "tar",
+      "version": "6.1.11",
+      "cve_id": "GHSA-83g3-92jg-28cx",
+      "severity": "HIGH",
+      "cvss_score": "7.1",
+      "fixed_version": "7.5.8",
+      "title": "Arbitrary File Read/Write via Hardlink Target Escape Through Symlink Chain in node-tar Extraction",
+      "url": "https://github.com/advisories/GHSA-83g3-92jg-28cx"
+    },
+    {
+      "package": "tar",
+      "version": "6.1.11",
+      "cve_id": "GHSA-qffp-2rhf-9h96",
+      "severity": "HIGH",
+      "cvss_score": "N/A",
+      "fixed_version": "7.5.10",
+      "title": "tar has Hardlink Path Traversal via Drive-Relative Linkpath",
+      "url": "https://github.com/advisories/GHSA-qffp-2rhf-9h96"
+    },
+    {
+      "package": "tar-fs",
+      "version": "2.1.1",
+      "cve_id": "GHSA-vj76-c3g6-qr5v",
+      "severity": "HIGH",
+      "cvss_score": "N/A",
+      "fixed_version": "2.1.4",
+      "title": "tar-fs has a symlink validation bypass if destination directory is predictable with a specific tarball",
+      "url": "https://github.com/advisories/GHSA-vj76-c3g6-qr5v"
+    },
+    {
+      "package": "tar-fs",
+      "version": "2.1.1",
+      "cve_id": "GHSA-8cj5-5rvv-wf4v",
+      "severity": "HIGH",
+      "cvss_score": "N/A",
+      "fixed_version": "2.1.3",
+      "title": "tar-fs can extract outside the specified dir with a specific tarball",
+      "url": "https://github.com/advisories/GHSA-8cj5-5rvv-wf4v"
+    },
+    {
+      "package": "tar-fs",
+      "version": "2.1.1",
+      "cve_id": "GHSA-pq67-2wwv-3xjx",
+      "severity": "HIGH",
+      "cvss_score": "7.5",
+      "fixed_version": "2.1.2",
+      "title": "tar-fs Vulnerable to Link Following and Path Traversal via Extracting a Crafted tar File",
+      "url": "https://github.com/advisories/GHSA-pq67-2wwv-3xjx"
+    },
+    {
+      "package": "underscore",
+      "version": "1.12.1",
+      "cve_id": "GHSA-qpx9-hpmf-5gmw",
+      "severity": "HIGH",
+      "cvss_score": "N/A",
+      "fixed_version": "1.13.7",
+      "title": "Underscore has unlimited recursion in _.flatten and _.isEqual, potential for DoS attack",
+      "url": "https://github.com/advisories/GHSA-qpx9-hpmf-5gmw"
+    },
+    {
+      "package": "ws",
+      "version": "1.0.2",
+      "cve_id": "GHSA-3h5v-q93c-6h6q",
+      "severity": "HIGH",
+      "cvss_score": "7.5",
+      "fixed_version": "7.5.10",
+      "title": "ws affected by a DoS when handling a request with many HTTP headers",
+      "url": "https://github.com/advisories/GHSA-3h5v-q93c-6h6q"
+    },
+    {
+      "package": "yaml",
+      "version": "4.1.0",
+      "cve_id": "GHSA-f9xv-q969-pqx4",
+      "severity": "HIGH",
+      "cvss_score": "7.5",
+      "fixed_version": "2.2.2",
+      "title": "Uncaught Exception in yaml",
+      "url": "https://github.com/advisories/GHSA-f9xv-q969-pqx4"
+    }
+  ]
+}

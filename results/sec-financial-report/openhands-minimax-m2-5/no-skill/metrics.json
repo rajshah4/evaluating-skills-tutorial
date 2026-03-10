@@ -1,0 +1,14 @@
+{
+  "task": "sec-financial-report",
+  "condition": "no-skill",
+  "backend": "docker",
+  "model": "openhands/minimax-m2.5",
+  "model_label": "openhands-minimax-m2-5",
+  "passed": false,
+  "message": "answers.json field 'q3_operating_margin_pct' was outside tolerance",
+  "runtime_seconds": 56.77,
+  "event_count": 25,
+  "item_count": 11,
+  "sandbox_id": null,
+  "remote_output": "/workspace/project/output/answers.json"
+}

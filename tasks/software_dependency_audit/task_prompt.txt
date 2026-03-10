@@ -1,0 +1,33 @@
+You are auditing a dependency file inside an OpenHands Cloud sandbox.
+
+Context:
+- The task input is at `{remote_lockfile}`.
+{snapshot_context}- Work inside `{remote_project_dir}`.
+- Create `{remote_output_dir}` if needed.
+- Write exactly one JSON file to `{remote_report}`.
+
+Rules:
+- Only report HIGH and CRITICAL vulnerabilities.
+- Use an offline-capable workflow.
+{deterministic_rule}- If Trivy is available, prefer Trivy with offline flags and JSON parsing.
+- Extract CVSS scores with source priority NVD, then GHSA, then RedHat.
+- If a fixed version is missing, use `N/A`.
+- Do not write CSV for this tutorial.
+
+Output schema:
+{{
+  "findings": [
+    {{
+      "package": "name",
+      "version": "installed version",
+      "cve_id": "CVE or GHSA id",
+      "severity": "HIGH or CRITICAL",
+      "cvss_score": "numeric string or N/A",
+      "fixed_version": "version or N/A",
+      "title": "short vulnerability title",
+      "url": "reference URL"
+    }}
+  ]
+}}
+
+The result must be deterministic and match the scanner findings for this lockfile.

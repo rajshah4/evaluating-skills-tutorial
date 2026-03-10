@@ -1,0 +1,215 @@
+# Evaluating Skills Tutorial
+
+This repo is a small OpenHands tutorial for evaluating skills on deterministic tasks. It is intentionally not a full benchmark harness.
+
+The loop is simple:
+
+1. run a task with `no-skill`
+2. run the same task with a skill
+3. verify the output locally
+4. compare pass/fail, runtime, and event count
+
+Current task examples:
+
+- `software-dependency-audit`
+- `sec-financial-report`
+- `sales-pivot-analysis`
+
+## Why This Repo Exists
+
+This tutorial is meant to show a reusable pattern for testing whether a skill actually helps. The three included tasks intentionally show different outcomes:
+
+- `software-dependency-audit`: strong positive skill lift
+- `sec-financial-report`: small or mostly neutral lift
+- `sales-pivot-analysis`: a case where a skill can help some runs but still hurt one task/model pair
+
+That mix is useful. Skills are hypotheses, not guarantees.
+
+## Repo Layout
+
+- `tasks/`
+  Inputs, prompts, and expected outputs
+- `skills/`
+  Skill variants used by each task
+- `scripts/run_eval.py`
+  Run one task/condition through the OpenHands SDK
+- `scripts/run_model_matrix.py`
+  Run one task/condition across multiple models
+- `verify.py`
+  Re-check a saved artifact locally
+- `results/`
+  Saved artifacts, metrics, summaries, and visuals
+- `docs/METHODOLOGY.md`
+  How to think about evaluating your own skills
+
+## Requirements
+
+- Python 3.12+
+- `uv`
+- OpenHands API credentials
+- Docker Desktop if you want a locally hosted runtime
+
+Recommended environment variables:
+
+```bash
+export OPENHANDS_CLOUD_API_KEY=...
+export LLM_API_KEY=...
+export LLM_MODEL=openhands/claude-sonnet-4-5-20250929
+```
+
+Optional tracing:
+
+```bash
+export LMNR_PROJECT_API_KEY=...
+```
+
+Or point OpenTelemetry somewhere else:
+
+```bash
+export OTEL_EXPORTER_OTLP_ENDPOINT=...
+export OTEL_EXPORTER_OTLP_HEADERS=...
+```
+
+Install:
+
+```bash
+uv sync
+```
+
+## Run With OpenHands Cloud
+
+This is the simplest path if you just want to run the tutorial quickly.
+
+Dependency audit:
+
+```bash
+uv run python scripts/run_eval.py --task software-dependency-audit --condition no-skill
+uv run python scripts/run_eval.py --task software-dependency-audit --condition improved-skill
+```
+
+SEC financial report:
+
+```bash
+uv run python scripts/run_eval.py --task sec-financial-report --condition no-skill
+uv run python scripts/run_eval.py --task sec-financial-report --condition improved-skill
+```
+
+Sales pivot analysis:
+
+```bash
+uv run python scripts/run_eval.py --task sales-pivot-analysis --condition no-skill
+uv run python scripts/run_eval.py --task sales-pivot-analysis --condition improved-skill
+```
+
+## Run With Local Docker
+
+Use this when you want a locally hosted OpenHands runtime and richer traces.
+
+Dependency audit:
+
+```bash
+uv run python scripts/run_eval.py --task software-dependency-audit --backend docker --condition no-skill
+uv run python scripts/run_eval.py --task software-dependency-audit --backend docker --condition improved-skill
+```
+
+SEC financial report:
+
+```bash
+uv run python scripts/run_eval.py --task sec-financial-report --backend docker --condition no-skill
+uv run python scripts/run_eval.py --task sec-financial-report --backend docker --condition improved-skill
+```
+
+Sales pivot analysis:
+
+```bash
+uv run python scripts/run_eval.py --task sales-pivot-analysis --backend docker --condition no-skill
+uv run python scripts/run_eval.py --task sales-pivot-analysis --backend docker --condition improved-skill
+```
+
+Each run writes:
+
+- `results/<task>/<condition>/<artifact>`
+- `results/<task>/<condition>/metrics.json`
+- `results/<task>/<condition>/events.json`
+
+With `--model-label`, runs are written under:
+
+- `results/<task>/<model-label>/<condition>/...`
+
+## Verify A Saved Run
+
+```bash
+uv run python verify.py --task software-dependency-audit results/software-dependency-audit/improved-skill/report.json
+uv run python verify.py --task sec-financial-report results/sec-financial-report/improved-skill/answers.json
+uv run python verify.py --task sales-pivot-analysis results/sales-pivot-analysis/improved-skill/result.xlsx
+```
+
+## Compare Runs And Generate Visuals
+
+```bash
+uv run python scripts/compare_runs.py
+uv run python scripts/export_metrics_summary.py
+uv run python scripts/generate_visuals.py
+```
+
+Saved outputs:
+
+- [summary csv](/Users/rajiv.shah/Code/evaluating_skills_tutorial/results/model_matrix_summary.csv)
+- [summary json](/Users/rajiv.shah/Code/evaluating_skills_tutorial/results/model_matrix_summary.json)
+- [dashboard](/Users/rajiv.shah/Code/evaluating_skills_tutorial/results/visuals/index.html)
+- [pass rate](/Users/rajiv.shah/Code/evaluating_skills_tutorial/results/visuals/pass_rate_by_task.svg)
+- [runtime](/Users/rajiv.shah/Code/evaluating_skills_tutorial/results/visuals/runtime_by_task.svg)
+- [model scorecard](/Users/rajiv.shah/Code/evaluating_skills_tutorial/results/visuals/model_scorecard.svg)
+
+Example visual:
+
+![Pass rate by task](/Users/rajiv.shah/Code/evaluating_skills_tutorial/results/visuals/pass_rate_by_task.svg)
+
+## Compare Models
+
+Use the OpenHands-routed model format: `openhands/<model>`.
+
+Validated examples in this repo:
+
+- `openhands/claude-sonnet-4-5-20250929`
+- `openhands/minimax-m2.5`
+- `openhands/gemini-3-pro-preview`
+- `openhands/gemini-3-flash-preview`
+- `openhands/kimi-k2-0711-preview`
+
+Example:
+
+```bash
+uv run python scripts/run_model_matrix.py \
+  --task sec-financial-report \
+  --backend docker \
+  --condition improved-skill \
+  --model openhands/claude-sonnet-4-5-20250929 \
+  --model openhands/minimax-m2.5 \
+  --model openhands/gemini-3-pro-preview \
+  --model openhands/gemini-3-flash-preview \
+  --model openhands/kimi-k2-0711-preview
+```
+
+## Observability Philosophy
+
+This tutorial uses Laminar as the example tracing backend, but the evaluation loop is not tied to Laminar. The important contract is local and deterministic: run a condition, save the artifact, verify it locally, and compare outcomes. Traces are there to explain behavior and debug failures.
+
+## Cloud vs Docker
+
+Both backends work. OpenHands Cloud is the fastest way to run the tutorial. Docker is the better choice when you want a locally hosted runtime, richer traces, and more control over the environment.
+
+## Extend This Tutorial
+
+If you want to adapt this repo for your own skills:
+
+1. Pick a bounded task with a deterministic output contract.
+2. Create a verifier that returns pass/fail and a few simple metrics.
+3. Run at least two conditions:
+   - `no-skill`
+   - `skill enabled`
+4. Use traces to explain behavior, not to decide correctness.
+5. Compare both outcome metrics and behavioral differences.
+
+The more detailed reasoning about evaluation design lives in [docs/METHODOLOGY.md](/Users/rajiv.shah/Code/evaluating_skills_tutorial/docs/METHODOLOGY.md).
+If you want to add a new example task, see [docs/ADDING_A_TASK.md](/Users/rajiv.shah/Code/evaluating_skills_tutorial/docs/ADDING_A_TASK.md).
