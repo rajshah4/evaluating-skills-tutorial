@@ -68,7 +68,7 @@ Keep the contract small and deterministic. Prefer checking the final output over
 
 ## Step 3: Add The Task To The Registry
 
-Edit [constants.py](/Users/rajiv.shah/Code/evaluating_skills_tutorial/src/skill_eval/constants.py) and add a new `TaskConfig` entry.
+Edit [constants.py](../src/skill_eval/constants.py) and add a new `TaskConfig` entry.
 
 You need to define:
 
@@ -84,7 +84,7 @@ This is what lets `scripts/run_eval.py` know what to upload, where to download t
 
 ## Step 4: Add Verifier Logic
 
-Edit [verify.py](/Users/rajiv.shah/Code/evaluating_skills_tutorial/src/skill_eval/verify.py).
+Edit [verify.py](../src/skill_eval/verify.py).
 
 Add a task-specific verifier that:
 

@@ -154,16 +154,16 @@ uv run python scripts/generate_visuals.py
 
 Saved outputs:
 
-- [summary csv](/Users/rajiv.shah/Code/evaluating_skills_tutorial/results/model_matrix_summary.csv)
-- [summary json](/Users/rajiv.shah/Code/evaluating_skills_tutorial/results/model_matrix_summary.json)
-- [dashboard](/Users/rajiv.shah/Code/evaluating_skills_tutorial/results/visuals/index.html)
-- [pass rate](/Users/rajiv.shah/Code/evaluating_skills_tutorial/results/visuals/pass_rate_by_task.svg)
-- [runtime](/Users/rajiv.shah/Code/evaluating_skills_tutorial/results/visuals/runtime_by_task.svg)
-- [model scorecard](/Users/rajiv.shah/Code/evaluating_skills_tutorial/results/visuals/model_scorecard.svg)
+- [summary csv](results/model_matrix_summary.csv)
+- [summary json](results/model_matrix_summary.json)
+- [dashboard](results/visuals/index.html)
+- [pass rate](results/visuals/pass_rate_by_task.svg)
+- [runtime](results/visuals/runtime_by_task.svg)
+- [model scorecard](results/visuals/model_scorecard.svg)
 
 Example visual:
 
-![Pass rate by task](/Users/rajiv.shah/Code/evaluating_skills_tutorial/results/visuals/pass_rate_by_task.svg)
+![Pass rate by task](results/visuals/pass_rate_by_task.svg)
 
 ## Compare Models
 
@@ -211,5 +211,5 @@ If you want to adapt this repo for your own skills:
 4. Use traces to explain behavior, not to decide correctness.
 5. Compare both outcome metrics and behavioral differences.
 
-The more detailed reasoning about evaluation design lives in [docs/METHODOLOGY.md](/Users/rajiv.shah/Code/evaluating_skills_tutorial/docs/METHODOLOGY.md).
-If you want to add a new example task, see [docs/ADDING_A_TASK.md](/Users/rajiv.shah/Code/evaluating_skills_tutorial/docs/ADDING_A_TASK.md).
+The more detailed reasoning about evaluation design lives in [docs/METHODOLOGY.md](docs/METHODOLOGY.md).
+If you want to add a new example task, see [docs/ADDING_A_TASK.md](docs/ADDING_A_TASK.md).
