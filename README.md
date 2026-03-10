@@ -15,6 +15,10 @@ Current task examples:
 - `sec-financial-report`
 - `sales-pivot-analysis`
 
+These examples are adapted from SkillsBench:
+
+- https://github.com/benchflow-ai/skillsbench
+
 ## Why This Repo Exists
 
 This tutorial is meant to show a reusable pattern for testing whether a skill actually helps. The three included tasks intentionally show different outcomes:
@@ -215,3 +219,10 @@ If you want to adapt this repo for your own skills:
 
 The more detailed reasoning about evaluation design lives in [docs/METHODOLOGY.md](docs/METHODOLOGY.md).
 If you want to add a new example task, see [docs/ADDING_A_TASK.md](docs/ADDING_A_TASK.md).
+
+## Acknowledgements
+
+This tutorial is inspired by SkillsBench and reuses its core idea of evaluating skills on deterministic tasks with local verifiers.
+
+- Paper: https://arxiv.org/abs/2602.12670
+- GitHub: https://github.com/benchflow-ai/skillsbench
