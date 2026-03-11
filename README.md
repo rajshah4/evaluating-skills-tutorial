@@ -118,9 +118,9 @@ uv run python scripts/run_eval.py --task software-dependency-audit --condition i
 
 Current limitation:
 
-- Cloud V1 app conversations and SDK `Conversation + OpenHandsCloudWorkspace` do not expose the same level of agent customization.
-- In practice, Cloud V1 repo-backed runs are the best path for repo-native skill discovery, while the SDK path is still the best path when you need exact manual skill injection.
-- This is the same control-plane split discussed in [OpenHands/OpenHands#13268](https://github.com/OpenHands/OpenHands/issues/13268).
+- Use Cloud repo-backed runs when you want OpenHands to discover project skills from the repo.
+- Use the SDK upload-based path when you want to inject skill text manually from the runner.
+- OpenHands is still converging these two paths. Background: [OpenHands/OpenHands#13268](https://github.com/OpenHands/OpenHands/issues/13268).
 
 This should improve over time. For now, this repo keeps both:
 
