@@ -48,31 +48,55 @@ That mix is useful. Skills are hypotheses, not guarantees.
 - `docs/METHODOLOGY.md`
   How to think about evaluating your own skills
 
-## Requirements
+## Quickstart
 
 - Python 3.12+
 - `uv`
-- OpenHands API credentials
+- OpenHands credentials
 - Docker Desktop if you want a locally hosted runtime
 
-Recommended environment variables:
+Install:
 
 ```bash
-export LLM_API_KEY=...
+uv sync
+```
+
+Set the credentials for the path you want to use.
+
+For all runs, choose an OpenHands-routed model:
+
+```bash
 export LLM_MODEL=openhands/claude-sonnet-4-5-20250929
 ```
 
-For OpenHands Cloud, also set:
+For OpenHands Cloud:
 
 ```bash
 export OPENHANDS_CLOUD_API_KEY=...
 ```
 
-Use:
+- `OPENHANDS_CLOUD_API_KEY`
+  Used to create Cloud conversations and start Cloud runs.
+  Get it from OpenHands Cloud API Keys:
+  https://docs.openhands.dev/openhands/usage/cloud/cloud-api
+- For repo-backed Cloud runs, also make sure OpenHands Cloud can access your GitHub repo:
+  https://docs.openhands.dev/usage/cloud/github-installation
 
-- `OPENHANDS_CLOUD_API_KEY` for both Cloud paths
-- `LLM_API_KEY` and `LLM_MODEL` for the local agent-server path
-- `LLM_MODEL` or `--model` to choose the routed model in Cloud
+For the local agent-server path:
+
+```bash
+export LLM_API_KEY=...
+```
+
+- `LLM_API_KEY`
+  Used by the local agent server to call the OpenHands model provider.
+  Get the OpenHands LLM key from API Keys settings:
+  https://docs.openhands.dev/openhands/usage/settings/api-keys-settings
+- `LLM_MODEL`
+  Picks the routed model for the run, for example `openhands/claude-sonnet-4-5-20250929`.
+
+If you want the local agent-server pattern explained in more detail, see:
+https://docs.openhands.dev/sdk/guides/agent-server/local-server
 
 Optional tracing:
 
@@ -85,12 +109,6 @@ Or point OpenTelemetry somewhere else:
 ```bash
 export OTEL_EXPORTER_OTLP_ENDPOINT=...
 export OTEL_EXPORTER_OTLP_HEADERS=...
-```
-
-Install:
-
-```bash
-uv sync
 ```
 
 ## OpenHands Cloud
