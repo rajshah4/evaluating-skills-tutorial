@@ -79,7 +79,9 @@ export OPENHANDS_CLOUD_API_KEY=...
   Used to create Cloud conversations and start Cloud runs.
   Get it from OpenHands Cloud API Keys:
   https://docs.openhands.dev/openhands/usage/cloud/cloud-api
-- For repo-backed Cloud runs, also make sure OpenHands Cloud can access your GitHub repo:
+- `GitHub token`
+  Create a token with `repo` scope if you are using a personal token-based GitHub connection for repo-backed Cloud runs.
+  OpenHands Cloud also supports GitHub app-based repo access:
   https://docs.openhands.dev/usage/cloud/github-installation
 
 For the local agent-server path:
@@ -89,8 +91,9 @@ export LLM_API_KEY=...
 ```
 
 - `LLM_API_KEY`
-  Used by the local agent server to call the OpenHands model provider.
-  Get the OpenHands LLM key from API Keys settings:
+  Your OpenAI, Anthropic, or OpenHands LLM key.
+  Used by the local agent server to call the configured model provider.
+  OpenHands API key setup:
   https://docs.openhands.dev/openhands/usage/settings/api-keys-settings
 - `LLM_MODEL`
   Picks the routed model for the run, for example `openhands/claude-sonnet-4-5-20250929`.
