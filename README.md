@@ -98,6 +98,8 @@ export LLM_API_KEY=...
 If you want the local agent-server pattern explained in more detail, see:
 https://docs.openhands.dev/sdk/guides/agent-server/local-server
 
+For the tutorial's exact local setup, see [IMPLEMENTATION.md](IMPLEMENTATION.md).
+
 Optional tracing:
 
 ```bash

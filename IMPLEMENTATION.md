@@ -1,0 +1,116 @@
+# Local Implementation
+
+This document explains the local agent-server setup used by this tutorial.
+
+## Why This Path
+
+The recommended local path is a pre-started OpenHands agent server. The evaluation runner then connects to that server over HTTP.
+
+This is closer to the hosted OpenHands model than creating one-off Docker sandboxes inside the runner:
+
+- the runner acts as a client
+- the agent server owns the runtime
+- task files live in a mounted repo
+- outputs are written back through the same repo-backed flow
+
+## Start The Agent Server
+
+Use the helper script:
+
+```bash
+./scripts/start_local_agent_server.sh
+```
+
+That script starts the OpenHands agent-server container and mounts this repo into:
+
+```text
+/workspace/project/evaluating-skills-tutorial
+```
+
+The server listens on:
+
+```text
+http://127.0.0.1:8000
+```
+
+## Required Environment Variables
+
+Set these before running the local path:
+
+```bash
+export LLM_API_KEY=...
+export LLM_MODEL=openhands/claude-sonnet-4-5-20250929
+export OPENHANDS_AGENT_SERVER_URL=http://127.0.0.1:8000
+export OPENHANDS_AGENT_REPO_DIR=/workspace/project/evaluating-skills-tutorial
+```
+
+What they do:
+
+- `LLM_API_KEY`
+  Authenticates model calls made by the local agent server.
+- `LLM_MODEL`
+  Selects the routed OpenHands model.
+- `OPENHANDS_AGENT_SERVER_URL`
+  Tells the runner where the local agent server is listening.
+- `OPENHANDS_AGENT_REPO_DIR`
+  Tells the runner where the repo is mounted inside the container.
+
+## How Repo-Backed Local Runs Work
+
+The local agent-server flow uses committed task fixtures under:
+
+- `task_repos/software_dependency_audit`
+- `task_repos/sec_financial_report`
+- `task_repos/sales_pivot_analysis`
+
+The runner maps each task to one of those directories inside the mounted repo and asks OpenHands to write the output artifact there.
+
+Example:
+
+```bash
+uv run python scripts/run_eval.py \
+  --task sec-financial-report \
+  --backend agent-server \
+  --execution-mode repo \
+  --condition improved-skill
+```
+
+For that run, the agent works against:
+
+```text
+/workspace/project/evaluating-skills-tutorial/task_repos/sec_financial_report
+```
+
+## Outputs
+
+After the run completes, the runner copies the final artifact and metadata into local `results/`.
+
+Typical files:
+
+- `results/<task>/<condition>/<artifact>`
+- `results/<task>/<condition>/metrics.json`
+- `results/<task>/<condition>/events.json`
+
+If you pass `--model-label`, the run is saved under:
+
+- `results/<task>/<model-label>/<condition>/...`
+
+## How This Differs From Cloud
+
+Cloud repo-backed runs:
+
+- create V1 app conversations in OpenHands Cloud
+- require `OPENHANDS_CLOUD_API_KEY`
+- discover project skills from `.openhands/skills/*.md`
+
+Local agent-server runs:
+
+- connect to your own running OpenHands agent server
+- do not require `OPENHANDS_CLOUD_API_KEY`
+- are useful when you want a local runtime with the same general client-to-server shape
+
+## Related Files
+
+- `scripts/start_local_agent_server.sh`
+- `scripts/run_eval.py`
+- `docs/ADDING_A_TASK.md`
