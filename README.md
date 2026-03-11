@@ -84,34 +84,11 @@ Install:
 uv sync
 ```
 
-## Run With OpenHands Cloud
+## OpenHands Cloud
 
-This is the simplest path if you just want to run the tutorial quickly.
+Recommended path: run against a GitHub repo in OpenHands Cloud.
 
-Dependency audit:
-
-```bash
-uv run python scripts/run_eval.py --task software-dependency-audit --condition no-skill
-uv run python scripts/run_eval.py --task software-dependency-audit --condition improved-skill
-```
-
-SEC financial report:
-
-```bash
-uv run python scripts/run_eval.py --task sec-financial-report --condition no-skill
-uv run python scripts/run_eval.py --task sec-financial-report --condition improved-skill
-```
-
-Sales pivot analysis:
-
-```bash
-uv run python scripts/run_eval.py --task sales-pivot-analysis --condition no-skill
-uv run python scripts/run_eval.py --task sales-pivot-analysis --condition improved-skill
-```
-
-## Run With Repo-Backed OpenHands Cloud
-
-Use this when the task fixtures already live in a GitHub repo and you want Cloud to run directly against that repo instead of uploading files into a fresh workspace.
+Use this when the task fixtures already live in a repo and you want Cloud to run directly against that repo instead of uploading files into a fresh workspace.
 
 ```bash
 uv run python scripts/run_eval.py \
@@ -122,8 +99,22 @@ uv run python scripts/run_eval.py \
   --cloud-repo rajshah4/evaluating-skills-tutorial
 ```
 
-Cloud repo-backed mode uses the V1 app conversations API. The repo must be reachable from OpenHands Cloud.
-For this V1 runtime path, project skills are currently discovered from `.openhands/skills/*.md`.
+Cloud repo-backed mode uses the V1 app conversations API. The repo must be reachable from OpenHands Cloud. For this runtime path, project skills are currently discovered from `.openhands/skills/*.md`.
+
+You can use the same pattern for the other tasks:
+
+```bash
+uv run python scripts/run_eval.py --task software-dependency-audit --backend cloud --execution-mode repo --condition no-skill --cloud-repo rajshah4/evaluating-skills-tutorial
+uv run python scripts/run_eval.py --task software-dependency-audit --backend cloud --execution-mode repo --condition improved-skill --cloud-repo rajshah4/evaluating-skills-tutorial
+uv run python scripts/run_eval.py --task sales-pivot-analysis --backend cloud --execution-mode repo --condition improved-skill --cloud-repo rajshah4/evaluating-skills-tutorial
+```
+
+If you just want the simplest SDK path, you can still use uploaded fixtures instead of a repo-backed conversation:
+
+```bash
+uv run python scripts/run_eval.py --task software-dependency-audit --condition no-skill
+uv run python scripts/run_eval.py --task software-dependency-audit --condition improved-skill
+```
 
 Current limitation:
 
@@ -136,14 +127,9 @@ This should improve over time. For now, this repo keeps both:
 - `skills/` for SDK-driven runs
 - `.openhands/skills/*.md` for Cloud repo-backed V1 runs
 
-## Run With Local Agent Server
+## Local
 
-Use this when you want a locally hosted OpenHands runtime and richer traces.
-
-Recommended local pattern:
-
-1. start a local agent server
-2. point the eval runner at that server
+Use a local agent server when you want a locally hosted OpenHands runtime that is closer to the Cloud model than mounting files directly into a one-off container.
 
 Start the server:
 
@@ -173,22 +159,6 @@ export OPENHANDS_AGENT_REPO_DIR=/workspace/project/evaluating-skills-tutorial
 ```
 
 This is closer to the local flow used in `OpenHands/vulnerability-fixer` than creating Docker sandboxes inside the runner.
-
-## Run With Local Repo-Backed Agent Server
-
-Use this when you want the agent to work directly against task files that already live in the repo, instead of uploading fixtures into an empty sandbox.
-
-```bash
-uv run python scripts/run_eval.py \
-  --task sec-financial-report \
-  --backend agent-server \
-  --execution-mode repo \
-  --condition improved-skill
-```
-
-In the recommended local agent-server flow, the container mounts this repo at:
-
-- `/workspace/project/evaluating-skills-tutorial`
 
 The runner then uses:
 
@@ -269,7 +239,7 @@ This tutorial uses Laminar as the example tracing backend, but the evaluation lo
 
 ## Cloud vs Local
 
-Both backends work. OpenHands Cloud is the fastest way to start, either with uploaded fixtures or a GitHub-backed repo conversation. For local work, use a pre-started agent server container.
+Use OpenHands Cloud when you want the primary tutorial path, especially the repo-backed GitHub flow. Use the local agent server when you want a local runtime with the same general client-to-server shape.
 
 ## Extend This Tutorial
 
