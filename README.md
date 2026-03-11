@@ -1,13 +1,13 @@
 # Evaluating Skills Tutorial
 
-This repo is a small OpenHands tutorial for evaluating skills on deterministic tasks. It is intentionally not a full benchmark harness.
-
-The loop is simple:
+This repo shows a simple pattern for evaluating OpenHands skills on deterministic tasks:
 
 1. run a task with `no-skill`
 2. run the same task with a skill
 3. verify the output locally
 4. compare pass/fail, runtime, and event count
+
+It is intentionally tutorial-sized, not a full benchmark harness.
 
 Current task examples:
 
@@ -19,41 +19,14 @@ These examples are adapted from SkillsBench:
 
 - https://github.com/benchflow-ai/skillsbench
 
-## Why This Repo Exists
-
-This tutorial is meant to show a reusable pattern for testing whether a skill actually helps. The three included tasks intentionally show different outcomes:
-
-- `software-dependency-audit`: strong positive skill lift
-- `sec-financial-report`: small or mostly neutral lift
-- `sales-pivot-analysis`: a case where a skill can help some runs but still hurt one task/model pair
-
-That mix is useful. Skills are hypotheses, not guarantees.
-
-## Repo Layout
-
-- `tasks/`
-  Inputs, prompts, and expected outputs
-- `skills/`
-  Skill variants used by each task
-- `.openhands/skills/`
-  Repo-native project skills used by Cloud repo-backed V1 runs
-- `scripts/run_eval.py`
-  Run one task/condition through the OpenHands SDK
-- `scripts/run_model_matrix.py`
-  Run one task/condition across multiple models
-- `verify.py`
-  Re-check a saved artifact locally
-- `results/`
-  Saved artifacts, metrics, summaries, and visuals
-- `docs/METHODOLOGY.md`
-  How to think about evaluating your own skills
-
 ## Quickstart
+
+Requirements:
 
 - Python 3.12+
 - `uv`
 - OpenHands credentials
-- Docker Desktop if you want a locally hosted runtime
+- Docker Desktop if you want the local agent-server path
 
 Install:
 
@@ -61,9 +34,7 @@ Install:
 uv sync
 ```
 
-Set the credentials for the path you want to use.
-
-For all runs, choose an OpenHands-routed model:
+Choose a routed model:
 
 ```bash
 export LLM_MODEL=openhands/claude-sonnet-4-5-20250929
@@ -75,13 +46,9 @@ For OpenHands Cloud:
 export OPENHANDS_CLOUD_API_KEY=...
 ```
 
-- `OPENHANDS_CLOUD_API_KEY`
-  Used to create Cloud conversations and start Cloud runs.
-  Get it from OpenHands Cloud API Keys:
+- `OPENHANDS_CLOUD_API_KEY`: your OpenHands Cloud API key
   https://docs.openhands.dev/openhands/usage/cloud/cloud-api
-- `GitHub token`
-  Create a token with `repo` scope if you are using a personal token-based GitHub connection for repo-backed Cloud runs.
-  OpenHands Cloud also supports GitHub app-based repo access:
+- `GitHub token`: create a token with `repo` scope if you are using a token-based GitHub connection for repo-backed Cloud runs
   https://docs.openhands.dev/usage/cloud/github-installation
 
 For the local agent-server path:
@@ -90,18 +57,8 @@ For the local agent-server path:
 export LLM_API_KEY=...
 ```
 
-- `LLM_API_KEY`
-  Your OpenAI, Anthropic, or OpenHands LLM key.
-  Used by the local agent server to call the configured model provider.
-  OpenHands API key setup:
+- `LLM_API_KEY`: your OpenAI, Anthropic, or OpenHands LLM key
   https://docs.openhands.dev/openhands/usage/settings/api-keys-settings
-- `LLM_MODEL`
-  Picks the routed model for the run, for example `openhands/claude-sonnet-4-5-20250929`.
-
-If you want the local agent-server pattern explained in more detail, see:
-https://docs.openhands.dev/sdk/guides/agent-server/local-server
-
-For the tutorial's exact local setup, see [IMPLEMENTATION.md](IMPLEMENTATION.md).
 
 Optional tracing:
 
@@ -109,18 +66,11 @@ Optional tracing:
 export LMNR_PROJECT_API_KEY=...
 ```
 
-Or point OpenTelemetry somewhere else:
-
-```bash
-export OTEL_EXPORTER_OTLP_ENDPOINT=...
-export OTEL_EXPORTER_OTLP_HEADERS=...
-```
-
 ## OpenHands Cloud
 
-Recommended path: run against a GitHub repo in OpenHands Cloud.
+This is the main tutorial path.
 
-Use this when the task fixtures already live in a repo and you want Cloud to run directly against that repo instead of uploading files into a fresh workspace.
+Run against the GitHub repo directly:
 
 ```bash
 uv run python scripts/run_eval.py \
@@ -131,9 +81,7 @@ uv run python scripts/run_eval.py \
   --cloud-repo rajshah4/evaluating-skills-tutorial
 ```
 
-Cloud repo-backed mode uses the V1 app conversations API. The repo must be reachable from OpenHands Cloud. For this runtime path, project skills are currently discovered from `.openhands/skills/*.md`.
-
-You can use the same pattern for the other tasks:
+The same pattern works for the other tasks:
 
 ```bash
 uv run python scripts/run_eval.py --task software-dependency-audit --backend cloud --execution-mode repo --condition no-skill --cloud-repo rajshah4/evaluating-skills-tutorial
@@ -141,7 +89,9 @@ uv run python scripts/run_eval.py --task software-dependency-audit --backend clo
 uv run python scripts/run_eval.py --task sales-pivot-analysis --backend cloud --execution-mode repo --condition improved-skill --cloud-repo rajshah4/evaluating-skills-tutorial
 ```
 
-If you just want the simplest SDK path, you can still use uploaded fixtures instead of a repo-backed conversation:
+For repo-backed Cloud runs, project skills are discovered from `.openhands/skills/*.md`.
+
+If you want the simpler SDK upload path instead of repo-backed Cloud:
 
 ```bash
 uv run python scripts/run_eval.py --task software-dependency-audit --condition no-skill
@@ -150,18 +100,13 @@ uv run python scripts/run_eval.py --task software-dependency-audit --condition i
 
 Current limitation:
 
-- Use Cloud repo-backed runs when you want OpenHands to discover project skills from the repo.
-- Use the SDK upload-based path when you want to inject skill text manually from the runner.
-- OpenHands is still converging these two paths. Background: [OpenHands/OpenHands#13268](https://github.com/OpenHands/OpenHands/issues/13268).
-
-This should improve over time. For now, this repo keeps both:
-
-- `skills/` for SDK-driven runs
-- `.openhands/skills/*.md` for Cloud repo-backed V1 runs
+- use repo-backed Cloud when you want OpenHands to discover project skills from the repo
+- use the upload-based SDK path when you want to inject skill text directly from the runner
+- background: [OpenHands/OpenHands#13268](https://github.com/OpenHands/OpenHands/issues/13268)
 
 ## Local
 
-Use a local agent server when you want a locally hosted OpenHands runtime that is closer to the Cloud model than mounting files directly into a one-off container.
+Use a local agent server when you want a local runtime with a similar client-to-server shape.
 
 Start the server:
 
@@ -169,11 +114,7 @@ Start the server:
 ./scripts/start_local_agent_server.sh
 ```
 
-This mounts this repo into the container at:
-
-- `/workspace/project/evaluating-skills-tutorial`
-
-Then run an eval against that server:
+Run an evaluation:
 
 ```bash
 uv run python scripts/run_eval.py \
@@ -183,32 +124,17 @@ uv run python scripts/run_eval.py \
   --condition improved-skill
 ```
 
-Environment variables for this flow:
+Recommended local env vars:
 
 ```bash
 export OPENHANDS_AGENT_SERVER_URL=http://127.0.0.1:8000
-export OPENHANDS_AGENT_REPO_DIR=/workspace/project/evaluating-skills-tutorial
 ```
 
-This is closer to the local flow used in `OpenHands/vulnerability-fixer` than creating Docker sandboxes inside the runner.
+For the exact local setup, see [IMPLEMENTATION.md](IMPLEMENTATION.md).
 
-The runner then uses:
+## Verify And Compare
 
-- `/workspace/project/evaluating-skills-tutorial/task_repos/software_dependency_audit`
-- `/workspace/project/evaluating-skills-tutorial/task_repos/sec_financial_report`
-- `/workspace/project/evaluating-skills-tutorial/task_repos/sales_pivot_analysis`
-
-Each run writes:
-
-- `results/<task>/<condition>/<artifact>`
-- `results/<task>/<condition>/metrics.json`
-- `results/<task>/<condition>/events.json`
-
-With `--model-label`, runs are written under:
-
-- `results/<task>/<model-label>/<condition>/...`
-
-## Verify A Saved Run
+Verify a saved run:
 
 ```bash
 uv run python verify.py --task software-dependency-audit results/software-dependency-audit/improved-skill/report.json
@@ -216,7 +142,7 @@ uv run python verify.py --task sec-financial-report results/sec-financial-report
 uv run python verify.py --task sales-pivot-analysis results/sales-pivot-analysis/improved-skill/result.xlsx
 ```
 
-## Compare Runs And Generate Visuals
+Generate summaries and visuals:
 
 ```bash
 uv run python scripts/compare_runs.py
@@ -229,9 +155,6 @@ Saved outputs:
 - [summary csv](results/model_matrix_summary.csv)
 - [summary json](results/model_matrix_summary.json)
 - [dashboard](results/visuals/index.html)
-- [pass rate](results/visuals/pass_rate_by_task.svg)
-- [runtime](results/visuals/runtime_by_task.svg)
-- [model scorecard](results/visuals/model_scorecard.svg)
 
 Example visuals:
 
@@ -243,7 +166,7 @@ Example visuals:
 
 Use the OpenHands-routed model format: `openhands/<model>`.
 
-Validated examples in this repo:
+Validated examples:
 
 - `openhands/claude-sonnet-4-5-20250929`
 - `openhands/minimax-m2.5`
@@ -265,24 +188,14 @@ uv run python scripts/run_model_matrix.py \
   --model openhands/kimi-k2-0711-preview
 ```
 
-## Observability Philosophy
+## Notes
 
-This tutorial uses Laminar as the example tracing backend, but the evaluation loop is not tied to Laminar. The important contract is local and deterministic: run a condition, save the artifact, verify it locally, and compare outcomes. Traces are there to explain behavior and debug failures.
-
-## Extend This Tutorial
+This tutorial uses Laminar as the example tracing backend, but the evaluation loop is not tied to Laminar. Traces help explain behavior; the verifier decides correctness.
 
 If you want to adapt this repo for your own skills:
 
-1. Pick a bounded task with a deterministic output contract.
-2. Create a verifier that returns pass/fail and a few simple metrics.
-3. Run at least two conditions:
-   - `no-skill`
-   - `skill enabled`
-4. Use traces to explain behavior, not to decide correctness.
-5. Compare both outcome metrics and behavioral differences.
-
-The more detailed reasoning about evaluation design lives in [docs/METHODOLOGY.md](docs/METHODOLOGY.md).
-If you want to add a new example task, see [docs/ADDING_A_TASK.md](docs/ADDING_A_TASK.md).
+- evaluation methodology: [docs/METHODOLOGY.md](docs/METHODOLOGY.md)
+- add a new task: [docs/ADDING_A_TASK.md](docs/ADDING_A_TASK.md)
 
 ## Acknowledgements
 
