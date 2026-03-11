@@ -1,0 +1,20 @@
+{
+  "task": "sec-financial-report",
+  "condition": "improved-skill",
+  "backend": "cloud",
+  "execution_mode": "repo",
+  "model": "openhands/gemini-3-flash-preview",
+  "model_label": "fresh-cloud-openhands-gemini-3-flash-preview",
+  "passed": true,
+  "message": "answers.json matches the expected financial extraction and calculations",
+  "runtime_seconds": 27.61,
+  "event_count": 14,
+  "item_count": 11,
+  "sandbox_id": "4alp9vWeyOELMkdWEVXXW4",
+  "conversation_id": "39538fe1985141379b6979f8c67cd875",
+  "start_task_id": "232eedba54fd450a9f9ad73089a8dbd7",
+  "remote_output": "/workspace/project/evaluating-skills-tutorial/tasks/sec_financial_report/output/answers.json",
+  "selected_repository": "rajshah4/evaluating-skills-tutorial",
+  "selected_branch": "main",
+  "cloud_skill_mode": "auto"
+}

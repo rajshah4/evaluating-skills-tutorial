@@ -8,7 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 RESULTS_DIR = ROOT / "results"
-SUMMARY_CSV = RESULTS_DIR / "model_matrix_summary.csv"
+SUMMARY_CSV = RESULTS_DIR / "fresh_matrix_summary.csv"
 VISUALS_DIR = RESULTS_DIR / "visuals"
 
 TASK_ORDER = [
@@ -52,19 +52,23 @@ BG_COLOR = "#f8f4ec"
 
 def load_rows() -> list[dict[str, object]]:
     rows: list[dict[str, object]] = []
-    with SUMMARY_CSV.open(encoding="utf-8") as handle:
+    summary_csv = SUMMARY_CSV if SUMMARY_CSV.exists() else RESULTS_DIR / "model_matrix_summary.csv"
+    with summary_csv.open(encoding="utf-8") as handle:
         reader = csv.DictReader(handle)
         for row in reader:
             if not row["model"]:
                 continue
+            runtime_raw = row.get("runtime_seconds", "")
+            event_raw = row.get("event_count", "")
             rows.append(
                 {
                     "task": row["task"],
                     "condition": row["condition"],
                     "model": row["model"],
+                    "backend": row.get("backend", ""),
                     "passed": row["passed"] == "True",
-                    "runtime_seconds": float(row["runtime_seconds"]),
-                    "event_count": float(row["event_count"]),
+                    "runtime_seconds": float(runtime_raw) if runtime_raw not in ("", "None", None) else None,
+                    "event_count": float(event_raw) if event_raw not in ("", "None", None) else None,
                 }
             )
     return rows
@@ -83,7 +87,10 @@ def pass_rate_data(rows: list[dict[str, object]]) -> dict[tuple[str, str], float
 def average_data(rows: list[dict[str, object]], field: str) -> dict[tuple[str, str], float]:
     grouped: dict[tuple[str, str], list[float]] = defaultdict(list)
     for row in rows:
-        grouped[(row["task"], row["condition"])].append(float(row[field]))
+        value = row[field]
+        if value is None:
+            continue
+        grouped[(row["task"], row["condition"])].append(float(value))
     return {key: sum(values) / len(values) for key, values in grouped.items()}
 
 
@@ -181,7 +188,8 @@ def draw_scorecard(rows: list[dict[str, object]]) -> None:
     grouped: dict[tuple[str, str, str], dict[str, object]] = {}
     for row in rows:
         grouped[(row["task"], row["condition"], row["model"])] = row
-    max_runtime = max(float(row["runtime_seconds"]) for row in rows)
+    runtime_values = [float(row["runtime_seconds"]) for row in rows if row["runtime_seconds"] is not None]
+    max_runtime = max(runtime_values) if runtime_values else 1.0
 
     width = 1500
     height = 610
@@ -230,14 +238,13 @@ def draw_scorecard(rows: list[dict[str, object]]) -> None:
             passed = bool(row["passed"])
             fill = PASS_COLOR if passed else FAIL_COLOR
             label = "PASS" if passed else "FAIL"
-            runtime = float(row["runtime_seconds"])
+            runtime = row["runtime_seconds"]
             card_w = cell_w - 14
             card_h = cell_h - 10
             track_x = x + 18
             track_y = y + 35
             track_w = card_w - 36
             track_h = 12
-            bar_w = max(10, (runtime / max_runtime) * track_w)
             parts.append(
                 f'<rect x="{x}" y="{y}" width="{card_w}" height="{card_h}" rx="10" fill="{fill}" opacity="0.95"/>'
             )
@@ -248,12 +255,14 @@ def draw_scorecard(rows: list[dict[str, object]]) -> None:
             parts.append(
                 f'<rect x="{track_x}" y="{track_y}" width="{track_w}" height="{track_h}" rx="6" fill="white" opacity="0.22"/>'
             )
-            parts.append(
-                f'<rect x="{track_x}" y="{track_y}" width="{bar_w:.1f}" height="{track_h}" rx="6" fill="white" opacity="0.92"/>'
-            )
+            if runtime is not None:
+                bar_w = max(10, (float(runtime) / max_runtime) * track_w)
+                parts.append(
+                    f'<rect x="{track_x}" y="{track_y}" width="{bar_w:.1f}" height="{track_h}" rx="6" fill="white" opacity="0.92"/>'
+                )
             parts.append(
                 f'<text x="{x + card_w - 18}" y="{y + 26}" text-anchor="end" font-size="13" fill="white" '
-                f'font-family="Helvetica, Arial, sans-serif">{runtime:.1f}s</text>'
+                f'font-family="Helvetica, Arial, sans-serif">{f"{float(runtime):.1f}s" if runtime is not None else "n/a"}</text>'
             )
 
     legend_y = height - 34
@@ -272,7 +281,8 @@ def draw_task_breakdown(rows: list[dict[str, object]]) -> None:
     grouped: dict[tuple[str, str, str], dict[str, object]] = {}
     for row in rows:
         grouped[(row["task"], row["condition"], row["model"])] = row
-    max_runtime = max(float(row["runtime_seconds"]) for row in rows)
+    runtime_values = [float(row["runtime_seconds"]) for row in rows if row["runtime_seconds"] is not None]
+    max_runtime = max(runtime_values) if runtime_values else 1.0
 
     width = 1100
     section_h = 240
@@ -323,10 +333,9 @@ def draw_task_breakdown(rows: list[dict[str, object]]) -> None:
                 x = col_positions[condition]
                 row = grouped[(task, condition, model)]
                 passed = bool(row["passed"])
-                runtime = float(row["runtime_seconds"])
+                runtime = row["runtime_seconds"]
                 bar_track_x = x + 92
                 bar_track_w = 220
-                bar_w = max(8, (runtime / max_runtime) * bar_track_w)
                 badge_fill = PASS_COLOR if passed else FAIL_COLOR
                 badge_label = "PASS" if passed else "FAIL"
                 parts.append(
@@ -339,12 +348,14 @@ def draw_task_breakdown(rows: list[dict[str, object]]) -> None:
                 parts.append(
                     f'<rect x="{bar_track_x}" y="{y + 4}" width="{bar_track_w}" height="12" rx="6" fill="{GRID_COLOR}"/>'
                 )
-                parts.append(
-                    f'<rect x="{bar_track_x}" y="{y + 4}" width="{bar_w:.1f}" height="12" rx="6" fill="{badge_fill}"/>'
-                )
+                if runtime is not None:
+                    bar_w = max(8, (float(runtime) / max_runtime) * bar_track_w)
+                    parts.append(
+                        f'<rect x="{bar_track_x}" y="{y + 4}" width="{bar_w:.1f}" height="12" rx="6" fill="{badge_fill}"/>'
+                    )
                 parts.append(
                     f'<text x="{x + 326}" y="{y + 14}" text-anchor="end" font-size="12" fill="{TEXT_COLOR}" '
-                    f'font-family="Helvetica, Arial, sans-serif">{runtime:.1f}s</text>'
+                    f'font-family="Helvetica, Arial, sans-serif">{f"{float(runtime):.1f}s" if runtime is not None else "n/a"}</text>'
                 )
 
     legend_y = height - 18
@@ -371,7 +382,7 @@ def write_dashboard(rows: list[dict[str, object]]) -> None:
               <p class="metric">{skill:.0f}% vs {no_skill:.0f}%</p>
               <p class="sub">Improved skill vs no skill pass rate</p>
               <p class="delta">{delta:+.0f} pts</p>
-              <p class="sub">Avg runtime: {avg_runtime[(task, 'improved-skill')]:.1f}s vs {avg_runtime[(task, 'no-skill')]:.1f}s</p>
+              <p class="sub">Avg runtime: {avg_runtime.get((task, 'improved-skill'), 0.0):.1f}s vs {avg_runtime.get((task, 'no-skill'), 0.0):.1f}s</p>
             </div>
             """
         )
@@ -502,6 +513,7 @@ def write_dashboard(rows: list[dict[str, object]]) -> None:
 def main() -> int:
     rows = load_rows()
     VISUALS_DIR.mkdir(parents=True, exist_ok=True)
+    runtime_map = average_data(rows, "runtime_seconds")
     draw_grouped_bars(
         title="Pass rate by task",
         subtitle="Model-specific runs only. Higher is better.",
@@ -513,8 +525,8 @@ def main() -> int:
     draw_grouped_bars(
         title="Average runtime by task",
         subtitle="Average seconds across model-specific runs. Lower is better.",
-        value_map=average_data(rows, "runtime_seconds"),
-        max_value=max(average_data(rows, "runtime_seconds").values()) * 1.15,
+        value_map=runtime_map,
+        max_value=max(runtime_map.values()) * 1.15,
         y_suffix="s",
         file_name="runtime_by_task.svg",
     )

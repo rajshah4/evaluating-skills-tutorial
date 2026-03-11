@@ -1,0 +1,15 @@
+{
+  "task": "software-dependency-audit",
+  "condition": "no-skill",
+  "backend": "cloud",
+  "execution_mode": "upload",
+  "model": "openhands/gemini-3-flash-preview",
+  "model_label": "fresh-cloud-openhands-gemini-3-flash-preview",
+  "passed": false,
+  "message": "report.json does not match the expected HIGH/CRITICAL vulnerability set",
+  "runtime_seconds": 541.17,
+  "event_count": 125,
+  "item_count": 34,
+  "sandbox_id": null,
+  "remote_output": "/workspace/project/output/report.json"
+}

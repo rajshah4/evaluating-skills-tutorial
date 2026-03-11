@@ -291,9 +291,11 @@ def get_remote_paths(
     return REMOTE_PROJECT_DIR, REMOTE_OUTPUT_DIR, config.remote_output
 
 
-def prepare_repo_backed_task(task: str) -> Path:
+def prepare_repo_backed_task(task: str, condition: str) -> Path:
     config = get_task_config(task)
     repo_dir = config.local_repo_dir
+    repo_input_dir = repo_dir / "input"
+    task_input_dir = config.task_dir / "input"
     output_dir = repo_dir / "output"
     output_dir.mkdir(parents=True, exist_ok=True)
     for child in output_dir.iterdir():
@@ -301,6 +303,15 @@ def prepare_repo_backed_task(task: str) -> Path:
             continue
         if child.is_file():
             child.unlink()
+    for name in config.conditional_input_paths:
+        repo_path = repo_input_dir / name
+        task_path = task_input_dir / name
+        if condition == "no-skill":
+            if repo_path.exists():
+                repo_path.unlink()
+        elif task_path.is_file():
+            repo_path.parent.mkdir(parents=True, exist_ok=True)
+            repo_path.write_bytes(task_path.read_bytes())
     return repo_dir
 
 
@@ -522,7 +533,7 @@ def main() -> int:
         if args.execution_mode == "repo":
             if args.backend != "agent-server":
                 raise RuntimeError("execution-mode=repo is currently supported with --backend agent-server")
-            prepare_repo_backed_task(args.task)
+            prepare_repo_backed_task(args.task, args.condition)
             workspace.execute_command(f"mkdir -p {remote_output_dir}")
         else:
             workspace.execute_command(f"mkdir -p {REMOTE_INPUT_DIR} {REMOTE_OUTPUT_DIR}")

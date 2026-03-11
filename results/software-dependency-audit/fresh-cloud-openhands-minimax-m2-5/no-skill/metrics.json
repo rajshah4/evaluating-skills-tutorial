@@ -1,0 +1,15 @@
+{
+  "task": "software-dependency-audit",
+  "condition": "no-skill",
+  "backend": "cloud",
+  "execution_mode": "upload",
+  "model": "openhands/minimax-m2.5",
+  "model_label": "fresh-cloud-openhands-minimax-m2-5",
+  "passed": false,
+  "message": "report.json does not match the expected HIGH/CRITICAL vulnerability set",
+  "runtime_seconds": 217.91,
+  "event_count": 36,
+  "item_count": 30,
+  "sandbox_id": null,
+  "remote_output": "/workspace/project/output/report.json"
+}

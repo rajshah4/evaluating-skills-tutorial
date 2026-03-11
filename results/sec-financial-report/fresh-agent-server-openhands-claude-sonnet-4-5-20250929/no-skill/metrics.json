@@ -1,0 +1,15 @@
+{
+  "task": "sec-financial-report",
+  "condition": "no-skill",
+  "backend": "agent-server",
+  "execution_mode": "repo",
+  "model": "openhands/claude-sonnet-4-5-20250929",
+  "model_label": "fresh-agent-server-openhands-claude-sonnet-4-5-20250929",
+  "passed": true,
+  "message": "answers.json matches the expected financial extraction and calculations",
+  "runtime_seconds": 58.82,
+  "event_count": 21,
+  "item_count": 11,
+  "sandbox_id": null,
+  "remote_output": "/workspace/project/evaluating-skills-tutorial/task_repos/sec_financial_report/output/answers.json"
+}

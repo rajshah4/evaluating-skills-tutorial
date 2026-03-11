@@ -1,0 +1,144 @@
+{
+  "findings": [
+    {
+      "package": "ip",
+      "version": "2.0.0",
+      "cve_id": "CVE-2024-29415",
+      "severity": "HIGH",
+      "cvss_score": "8.1",
+      "fixed_version": "N/A",
+      "title": "node-ip: Incomplete fix for CVE-2023-42282",
+      "url": "https://avd.aquasec.com/nvd/cve-2024-29415"
+    },
+    {
+      "package": "minimatch",
+      "version": "3.1.2",
+      "cve_id": "CVE-2026-26996",
+      "severity": "HIGH",
+      "cvss_score": "7.5",
+      "fixed_version": "10.2.1, 9.0.6, 8.0.5, 7.4.7, 6.2.1, 5.1.7, 4.2.4, 3.1.3",
+      "title": "minimatch: minimatch: Denial of Service via specially crafted glob patterns",
+      "url": "https://avd.aquasec.com/nvd/cve-2026-26996"
+    },
+    {
+      "package": "minimatch",
+      "version": "3.1.2",
+      "cve_id": "CVE-2026-27903",
+      "severity": "HIGH",
+      "cvss_score": "7.5",
+      "fixed_version": "10.2.3, 9.0.7, 8.0.6, 7.4.8, 6.2.2, 5.1.8, 4.2.5, 3.1.3",
+      "title": "minimatch: minimatch: Denial of Service due to unbounded recursive backtracking via crafted glob patterns",
+      "url": "https://avd.aquasec.com/nvd/cve-2026-27903"
+    },
+    {
+      "package": "minimatch",
+      "version": "3.1.2",
+      "cve_id": "CVE-2026-27904",
+      "severity": "HIGH",
+      "cvss_score": "7.5",
+      "fixed_version": "10.2.3, 9.0.7, 8.0.6, 7.4.8, 6.2.2, 5.1.8, 4.2.5, 3.1.4",
+      "title": "minimatch: Minimatch: Denial of Service via catastrophic backtracking in glob expressions",
+      "url": "https://avd.aquasec.com/nvd/cve-2026-27904"
+    },
+    {
+      "package": "minimatch",
+      "version": "5.1.0",
+      "cve_id": "CVE-2026-26996",
+      "severity": "HIGH",
+      "cvss_score": "7.5",
+      "fixed_version": "10.2.1, 9.0.6, 8.0.5, 7.4.7, 6.2.1, 5.1.7, 4.2.4, 3.1.3",
+      "title": "minimatch: minimatch: Denial of Service via specially crafted glob patterns",
+      "url": "https://avd.aquasec.com/nvd/cve-2026-26996"
+    },
+    {
+      "package": "minimatch",
+      "version": "5.1.0",
+      "cve_id": "CVE-2026-27903",
+      "severity": "HIGH",
+      "cvss_score": "7.5",
+      "fixed_version": "10.2.3, 9.0.7, 8.0.6, 7.4.8, 6.2.2, 5.1.8, 4.2.5, 3.1.3",
+      "title": "minimatch: minimatch: Denial of Service due to unbounded recursive backtracking via crafted glob patterns",
+      "url": "https://avd.aquasec.com/nvd/cve-2026-27903"
+    },
+    {
+      "package": "minimatch",
+      "version": "5.1.0",
+      "cve_id": "CVE-2026-27904",
+      "severity": "HIGH",
+      "cvss_score": "7.5",
+      "fixed_version": "10.2.3, 9.0.7, 8.0.6, 7.4.8, 6.2.2, 5.1.8, 4.2.5, 3.1.4",
+      "title": "minimatch: Minimatch: Denial of Service via catastrophic backtracking in glob expressions",
+      "url": "https://avd.aquasec.com/nvd/cve-2026-27904"
+    },
+    {
+      "package": "semver",
+      "version": "7.3.7",
+      "cve_id": "CVE-2022-25883",
+      "severity": "HIGH",
+      "cvss_score": "7.5",
+      "fixed_version": "7.5.2, 6.3.1, 5.7.2",
+      "title": "nodejs-semver: Regular expression denial of service",
+      "url": "https://avd.aquasec.com/nvd/cve-2022-25883"
+    },
+    {
+      "package": "tar",
+      "version": "6.1.11",
+      "cve_id": "CVE-2026-23745",
+      "severity": "HIGH",
+      "cvss_score": "6.1",
+      "fixed_version": "7.5.3",
+      "title": "node-tar: tar: node-tar: Arbitrary file overwrite and symlink poisoning via unsanitized linkpaths in archives",
+      "url": "https://avd.aquasec.com/nvd/cve-2026-23745"
+    },
+    {
+      "package": "tar",
+      "version": "6.1.11",
+      "cve_id": "CVE-2026-23950",
+      "severity": "HIGH",
+      "cvss_score": "5.9",
+      "fixed_version": "7.5.4",
+      "title": "node-tar: tar: node-tar: Arbitrary file overwrite via Unicode path collision race condition",
+      "url": "https://avd.aquasec.com/nvd/cve-2026-23950"
+    },
+    {
+      "package": "tar",
+      "version": "6.1.11",
+      "cve_id": "CVE-2026-24842",
+      "severity": "HIGH",
+      "cvss_score": "8.2",
+      "fixed_version": "7.5.7",
+      "title": "node-tar: tar: node-tar: Arbitrary file creation via path traversal bypass in hardlink security check",
+      "url": "https://avd.aquasec.com/nvd/cve-2026-24842"
+    },
+    {
+      "package": "tar",
+      "version": "6.1.11",
+      "cve_id": "CVE-2026-26960",
+      "severity": "HIGH",
+      "cvss_score": "7.1",
+      "fixed_version": "7.5.8",
+      "title": "tar: node-tar: node-tar: Arbitrary file read/write via malicious archive hardlink creation",
+      "url": "https://avd.aquasec.com/nvd/cve-2026-26960"
+    },
+    {
+      "package": "tar",
+      "version": "6.1.11",
+      "cve_id": "CVE-2026-29786",
+      "severity": "HIGH",
+      "cvss_score": "8.2",
+      "fixed_version": "7.5.10",
+      "title": "node-tar: hardlink path traversal via drive-relative linkpath",
+      "url": "https://avd.aquasec.com/nvd/cve-2026-29786"
+    },
+    {
+      "package": "tar",
+      "version": "6.1.11",
+      "cve_id": "CVE-2026-31802",
+      "severity": "HIGH",
+      "cvss_score": "8.2",
+      "fixed_version": "7.5.11",
+      "title": "node-tar is a full-featured Tar for Node.js. Prior to version 7.5.11,  ...",
+      "url": "https://avd.aquasec.com/nvd/cve-2026-31802"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "task": "sec-financial-report",
+  "condition": "no-skill",
+  "backend": "cloud",
+  "execution_mode": "repo",
+  "model": "openhands/kimi-k2-0711-preview",
+  "model_label": "fresh-cloud-openhands-kimi-k2-0711-preview",
+  "passed": true,
+  "message": "answers.json matches the expected financial extraction and calculations",
+  "runtime_seconds": 92.88,
+  "event_count": 46,
+  "item_count": 11,
+  "sandbox_id": "49nHAQvN9xhZQGYDrJcR2B",
+  "conversation_id": "53d5469e7bf2495cbdb02118782e4de1",
+  "start_task_id": "2081768d8d5943b99db77191b68726ab",
+  "remote_output": "/workspace/project/evaluating-skills-tutorial/tasks/sec_financial_report/output/answers.json",
+  "selected_repository": "rajshah4/evaluating-skills-tutorial",
+  "selected_branch": "main",
+  "cloud_skill_mode": "auto"
+}

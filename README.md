@@ -60,7 +60,7 @@ export LLM_API_KEY=...
 - `LLM_API_KEY`: your OpenAI, Anthropic, or OpenHands LLM key
   https://docs.openhands.dev/openhands/usage/settings/api-keys-settings
 
-Optional tracing:
+Optional tracing using Laminar:
 
 ```bash
 export LMNR_PROJECT_API_KEY=...
@@ -89,20 +89,7 @@ uv run python scripts/run_eval.py --task software-dependency-audit --backend clo
 uv run python scripts/run_eval.py --task sales-pivot-analysis --backend cloud --execution-mode repo --condition improved-skill --cloud-repo rajshah4/evaluating-skills-tutorial
 ```
 
-For repo-backed Cloud runs, project skills are discovered from `.openhands/skills/*.md`.
 
-If you want the simpler SDK upload path instead of repo-backed Cloud:
-
-```bash
-uv run python scripts/run_eval.py --task software-dependency-audit --condition no-skill
-uv run python scripts/run_eval.py --task software-dependency-audit --condition improved-skill
-```
-
-Current limitation:
-
-- use repo-backed Cloud when you want OpenHands to discover project skills from the repo
-- use the upload-based SDK path when you want to inject skill text directly from the runner
-- background: [OpenHands/OpenHands#13268](https://github.com/OpenHands/OpenHands/issues/13268)
 
 ## Local
 
@@ -194,7 +181,7 @@ This tutorial uses Laminar as the example tracing backend, but the evaluation lo
 
 If you want to adapt this repo for your own skills:
 
-- evaluation methodology: [docs/METHODOLOGY.md](docs/METHODOLOGY.md)
+- Skill evaluation methodology: [docs/METHODOLOGY.md](docs/METHODOLOGY.md)
 - add a new task: [docs/ADDING_A_TASK.md](docs/ADDING_A_TASK.md)
 
 ## Acknowledgements

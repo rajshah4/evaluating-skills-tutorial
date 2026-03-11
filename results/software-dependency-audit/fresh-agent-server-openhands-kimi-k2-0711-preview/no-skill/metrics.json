@@ -1,0 +1,15 @@
+{
+  "task": "software-dependency-audit",
+  "condition": "no-skill",
+  "backend": "agent-server",
+  "execution_mode": "upload",
+  "model": "openhands/kimi-k2-0711-preview",
+  "model_label": "fresh-agent-server-openhands-kimi-k2-0711-preview",
+  "passed": false,
+  "message": "report.json does not match the expected HIGH/CRITICAL vulnerability set",
+  "runtime_seconds": 115.37,
+  "event_count": 25,
+  "item_count": 14,
+  "sandbox_id": null,
+  "remote_output": "/workspace/project/output/report.json"
+}

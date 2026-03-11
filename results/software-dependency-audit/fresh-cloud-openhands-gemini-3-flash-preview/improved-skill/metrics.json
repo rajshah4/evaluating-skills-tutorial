@@ -1,0 +1,15 @@
+{
+  "task": "software-dependency-audit",
+  "condition": "improved-skill",
+  "backend": "cloud",
+  "execution_mode": "upload",
+  "model": "openhands/gemini-3-flash-preview",
+  "model_label": "fresh-cloud-openhands-gemini-3-flash-preview",
+  "passed": true,
+  "message": "report.json matches the expected benchmark findings",
+  "runtime_seconds": 85.3,
+  "event_count": 21,
+  "item_count": 3,
+  "sandbox_id": null,
+  "remote_output": "/workspace/project/output/report.json"
+}

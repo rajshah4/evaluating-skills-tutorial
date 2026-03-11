@@ -1,0 +1,13 @@
+{
+  "company": "Redwood Systems",
+  "currency": "USD",
+  "q2_revenue_musd": 1240.0,
+  "q3_revenue_musd": 1375.0,
+  "q2_net_income_musd": 142.0,
+  "q3_net_income_musd": 181.5,
+  "revenue_growth_pct": 10.89,
+  "net_income_growth_pct": 27.82,
+  "q3_operating_margin_pct": 17.0,
+  "higher_revenue_quarter": "2025-q3",
+  "summary": "Redwood Systems saw a 10.89% revenue increase and 27.82% net income growth in Q3."
+}

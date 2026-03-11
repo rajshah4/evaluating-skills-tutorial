@@ -1,0 +1,15 @@
+{
+  "task": "sales-pivot-analysis",
+  "condition": "no-skill",
+  "backend": "agent-server",
+  "execution_mode": "repo",
+  "model": "openhands/minimax-m2.5",
+  "model_label": "fresh-agent-server-openhands-minimax-m2-5",
+  "passed": true,
+  "message": "result.xlsx contains the expected sheets and derived values",
+  "runtime_seconds": 280.64,
+  "event_count": 65,
+  "item_count": 10,
+  "sandbox_id": null,
+  "remote_output": "/workspace/project/evaluating-skills-tutorial/task_repos/sales_pivot_analysis/output/result.xlsx"
+}

@@ -1,0 +1,20 @@
+{
+  "task": "sec-financial-report",
+  "condition": "improved-skill",
+  "backend": "cloud",
+  "execution_mode": "repo",
+  "model": "openhands/minimax-m2.5",
+  "model_label": "fresh-cloud-openhands-minimax-m2-5",
+  "passed": true,
+  "message": "answers.json matches the expected financial extraction and calculations",
+  "runtime_seconds": 70.53,
+  "event_count": 34,
+  "item_count": 11,
+  "sandbox_id": "1x7jYp5WAxyl01pvceKyLH",
+  "conversation_id": "17ca8dd445254e779364bda45aec7bf2",
+  "start_task_id": "ef4e7188c28d4c98ba9dcc19669e41f9",
+  "remote_output": "/workspace/project/evaluating-skills-tutorial/tasks/sec_financial_report/output/answers.json",
+  "selected_repository": "rajshah4/evaluating-skills-tutorial",
+  "selected_branch": "main",
+  "cloud_skill_mode": "auto"
+}

@@ -1,0 +1,15 @@
+{
+  "task": "software-dependency-audit",
+  "condition": "improved-skill",
+  "backend": "cloud",
+  "execution_mode": "upload",
+  "model": "openhands/claude-sonnet-4-5-20250929",
+  "model_label": "fresh-cloud-openhands-claude-sonnet-4-5-20250929",
+  "passed": true,
+  "message": "report.json matches the expected benchmark findings",
+  "runtime_seconds": 63.39,
+  "event_count": 24,
+  "item_count": 3,
+  "sandbox_id": null,
+  "remote_output": "/workspace/project/output/report.json"
+}
