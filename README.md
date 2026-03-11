@@ -254,7 +254,7 @@ Example:
 ```bash
 uv run python scripts/run_model_matrix.py \
   --task sec-financial-report \
-  --backend docker \
+  --backend agent-server \
   --condition improved-skill \
   --model openhands/claude-sonnet-4-5-20250929 \
   --model openhands/minimax-m2.5 \
@@ -267,9 +267,9 @@ uv run python scripts/run_model_matrix.py \
 
 This tutorial uses Laminar as the example tracing backend, but the evaluation loop is not tied to Laminar. The important contract is local and deterministic: run a condition, save the artifact, verify it locally, and compare outcomes. Traces are there to explain behavior and debug failures.
 
-## Cloud vs Docker
+## Cloud vs Local
 
-Both backends work. OpenHands Cloud is the fastest way to start, either with uploaded fixtures or a GitHub-backed repo conversation. For local work, the recommended path is a pre-started agent server container.
+Both backends work. OpenHands Cloud is the fastest way to start, either with uploaded fixtures or a GitHub-backed repo conversation. For local work, use a pre-started agent server container.
 
 ## Extend This Tutorial
 

@@ -32,8 +32,8 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--backend",
-        default="docker",
-        choices=["cloud", "docker"],
+        default="agent-server",
+        choices=["cloud", "agent-server"],
     )
     parser.add_argument(
         "--model",

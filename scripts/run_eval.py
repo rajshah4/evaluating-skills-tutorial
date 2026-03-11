@@ -3,7 +3,6 @@ from __future__ import annotations
 import argparse
 import json
 import os
-import socket
 import sys
 import time
 import urllib.parse
@@ -21,7 +20,7 @@ from openhands.sdk.workspace import Workspace as SDKWorkspace
 from openhands.tools.file_editor import FileEditorTool
 from openhands.tools.task_tracker import TaskTrackerTool
 from openhands.tools.terminal import TerminalTool
-from openhands.workspace import DockerWorkspace, OpenHandsCloudWorkspace
+from openhands.workspace import OpenHandsCloudWorkspace
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 ROOT = SCRIPT_DIR.parent
@@ -58,7 +57,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--backend",
         default="cloud",
-        choices=["cloud", "docker", "agent-server"],
+        choices=["cloud", "agent-server"],
         help="Execution backend to use.",
     )
     parser.add_argument(
@@ -107,11 +106,6 @@ def parse_args() -> argparse.Namespace:
         "--keep-alive",
         action="store_true",
         help="Keep the cloud sandbox alive after the run finishes.",
-    )
-    parser.add_argument(
-        "--docker-image",
-        default=os.getenv("OPENHANDS_DOCKER_IMAGE", "ghcr.io/openhands/agent-server:latest-python"),
-        help="Docker agent-server image to use when --backend docker is selected.",
     )
     parser.add_argument(
         "--model",
@@ -272,31 +266,14 @@ def create_workspace(args: argparse.Namespace):
             api_key=args.agent_server_api_key,
             working_dir="/workspace",
         )
-
-    forward_env = [
-        "LMNR_PROJECT_API_KEY",
-        "OTEL_EXPORTER_OTLP_ENDPOINT",
-        "OTEL_EXPORTER_OTLP_HEADERS",
-        "OTEL_SERVICE_NAME",
-        "DEBUG",
-    ]
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        sock.bind(("127.0.0.1", 0))
-        host_port = sock.getsockname()[1]
-    return DockerWorkspace(
-        server_image=args.docker_image,
-        host_port=host_port,
-        forward_env=forward_env,
-        volumes=[f"{ROOT}:/workspace"] if args.execution_mode == "repo" else [],
-        detach_logs=False,
-    )
+    raise RuntimeError(f"Unsupported backend: {args.backend}")
 
 
 def get_remote_paths(
     task: str,
     execution_mode: str,
     *,
-    backend: str = "docker",
+    backend: str = "agent-server",
     cloud_repo: str = "",
 ) -> tuple[str, str, str]:
     config = get_task_config(task)
@@ -306,10 +283,8 @@ def get_remote_paths(
             if not repo_name:
                 raise RuntimeError("cloud_repo must be set for cloud repo-backed runs")
             remote_project_dir = f"/workspace/project/{repo_name}/tasks/{config.dir_name}"
-        elif backend == "agent-server":
-            remote_project_dir = f"{cloud_repo.rstrip('/')}/task_repos/{config.dir_name}"
         else:
-            remote_project_dir = f"/workspace/task_repos/{config.dir_name}"
+            remote_project_dir = f"{cloud_repo.rstrip('/')}/task_repos/{config.dir_name}"
         remote_output_dir = f"{remote_project_dir}/output"
         remote_report = f"{remote_output_dir}/{config.output_name}"
         return remote_project_dir, remote_output_dir, remote_report
@@ -545,8 +520,8 @@ def main() -> int:
     start_time = time.perf_counter()
     try:
         if args.execution_mode == "repo":
-            if args.backend not in {"docker", "agent-server"}:
-                raise RuntimeError("execution-mode=repo is currently supported with --backend docker or --backend agent-server")
+            if args.backend != "agent-server":
+                raise RuntimeError("execution-mode=repo is currently supported with --backend agent-server")
             prepare_repo_backed_task(args.task)
             workspace.execute_command(f"mkdir -p {remote_output_dir}")
         else:

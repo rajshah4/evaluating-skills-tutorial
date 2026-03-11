@@ -193,13 +193,6 @@ Compare:
 - event count
 - traces, if you have observability enabled
 
-If you want to test a repo-backed path specifically, run one of these:
-
-```bash
-uv run python scripts/run_eval.py --task <task-name> --backend docker --execution-mode repo --condition improved-skill
-```
-
-```bash
 uv run python scripts/run_eval.py --task <task-name> --backend agent-server --execution-mode repo --condition improved-skill
 ```
 
@@ -214,7 +207,7 @@ Once the task is stable, run it across models:
 ```bash
 uv run python scripts/run_model_matrix.py \
   --task <task-name> \
-  --backend docker \
+  --backend agent-server \
   --condition improved-skill \
   --model openhands/claude-sonnet-4-5-20250929
 ```
