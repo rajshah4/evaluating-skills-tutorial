@@ -58,12 +58,21 @@ That mix is useful. Skills are hypotheses, not guarantees.
 Recommended environment variables:
 
 ```bash
-export OPENHANDS_CLOUD_API_KEY=...
 export LLM_API_KEY=...
 export LLM_MODEL=openhands/claude-sonnet-4-5-20250929
 ```
 
-Use both keys for the upload-based SDK path. For Cloud repo-backed runs, `OPENHANDS_CLOUD_API_KEY` is the required credential and the model is routed through OpenHands with `LLM_MODEL` or `--model`.
+For OpenHands Cloud, also set:
+
+```bash
+export OPENHANDS_CLOUD_API_KEY=...
+```
+
+Use:
+
+- `OPENHANDS_CLOUD_API_KEY` for both Cloud paths
+- `LLM_API_KEY` and `LLM_MODEL` for the local agent-server path
+- `LLM_MODEL` or `--model` to choose the routed model in Cloud
 
 Optional tracing:
 
@@ -236,10 +245,6 @@ uv run python scripts/run_model_matrix.py \
 ## Observability Philosophy
 
 This tutorial uses Laminar as the example tracing backend, but the evaluation loop is not tied to Laminar. The important contract is local and deterministic: run a condition, save the artifact, verify it locally, and compare outcomes. Traces are there to explain behavior and debug failures.
-
-## Cloud vs Local
-
-Use OpenHands Cloud when you want the primary tutorial path, especially the repo-backed GitHub flow. Use the local agent server when you want a local runtime with the same general client-to-server shape.
 
 ## Extend This Tutorial
 
