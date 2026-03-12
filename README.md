@@ -131,9 +131,9 @@ For the exact local setup, see [IMPLEMENTATION.md](IMPLEMENTATION.md).
 Verify a saved run:
 
 ```bash
-uv run python verify.py --task software-dependency-audit results/software-dependency-audit/improved-skill/report.json
-uv run python verify.py --task sec-financial-report results/sec-financial-report/improved-skill/answers.json
-uv run python verify.py --task sales-pivot-analysis results/sales-pivot-analysis/improved-skill/result.xlsx
+uv run python verify.py --task software-dependency-audit /path/to/report.json
+uv run python verify.py --task sec-financial-report /path/to/answers.json
+uv run python verify.py --task sales-pivot-analysis /path/to/result.xlsx
 ```
 
 Generate summaries and visuals:
@@ -146,8 +146,8 @@ uv run python scripts/generate_visuals.py
 
 Saved outputs:
 
-- [summary csv](results/model_matrix_summary.csv)
-- [summary json](results/model_matrix_summary.json)
+- [summary csv](results/fresh_matrix_summary.csv)
+- [summary json](results/fresh_matrix_summary.json)
 - [dashboard](results/visuals/index.html)
 
 Example visuals:

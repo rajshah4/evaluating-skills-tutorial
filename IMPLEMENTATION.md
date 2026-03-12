@@ -86,7 +86,7 @@ For that run, the agent works against:
 
 After the run completes, the runner copies the final artifact and metadata into local `results/`.
 
-Typical files:
+Typical local files:
 
 - `results/<task>/<condition>/<artifact>`
 - `results/<task>/<condition>/metrics.json`
@@ -95,6 +95,8 @@ Typical files:
 If you pass `--model-label`, the run is saved under:
 
 - `results/<task>/<model-label>/<condition>/...`
+
+These per-run outputs are treated as local working artifacts and are not kept in Git. The committed repo keeps only the summary matrix files and generated visuals.
 
 ## How This Differs From Cloud
 

@@ -10,3 +10,9 @@ conversations/
 src/*.egg-info/
 tasks/*/output/*
 !tasks/*/output/.gitkeep
+results/software-dependency-audit/
+results/sec-financial-report/
+results/sales-pivot-analysis/
+results/*/verify-final-*/
+results/*/release-*/
+results/*/task-folder-*/
