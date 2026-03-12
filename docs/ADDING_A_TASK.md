@@ -43,6 +43,7 @@ Add these files:
 - `task_prompt.txt`
 - one expected output file such as `expected_report.json`
 - an `input/` folder if the task needs local artifacts
+- an `output/` folder with a committed `.gitkeep`
 
 Example:
 
@@ -52,22 +53,24 @@ tasks/my_new_task/
   expected_report.json
   input/
     sample_input.json
+  output/
+    .gitkeep
 ```
 
-If you want repo-backed runs as well, also create:
+For most tasks, that single folder is enough for both:
+
+- local agent-server repo-backed runs
+- Cloud repo-backed runs, where OpenHands clones the GitHub repo and writes into the task folder there
+
+If a task has skill-only helper artifacts that must not be visible in `no-skill`, keep them under a separate subfolder such as:
 
 ```text
-task_repos/my_new_task/
-  input/
-  output/
+tasks/my_new_task/
+  skill_input/
+    helper.json
 ```
 
-Keep `output/` empty except for a committed `.gitkeep`.
-
-That same layout is used by:
-
-- local Docker repo-backed runs, which mount the repo directly
-- Cloud repo-backed runs, where OpenHands clones the GitHub repo and writes into the task folder there
+Then expose those files only for the relevant condition through `conditional_input_paths`.
 
 ## Step 2: Define The Output Contract
 
@@ -97,20 +100,24 @@ You need to define:
 
 This is what lets `scripts/run_eval.py` know what to upload, where to download the artifact, and which verifier data to use.
 
-If you are using repo-backed runs, keep the task repo folder name aligned with `dir_name`.
+If you are using repo-backed runs, the runner uses `tasks/<dir_name>/` directly.
 
 ## Step 4: Add Verifier Logic
 
-Edit [verify.py](../src/skill_eval/verify.py).
+Create a task-local verifier at:
 
-Add a task-specific verifier that:
+```text
+tasks/my_new_task/verify.py
+```
+
+Add a `verify(report_path, expected_path)` function that:
 
 - checks required fields or sheets
 - checks expected values or tolerances
 - returns a clear pass/fail message
 - returns a simple item count
 
-Then wire it into `verify_task_output(...)`.
+The shared [verify.py](../verify.py) CLI and [src/skill_eval/verify.py](../src/skill_eval/verify.py) dispatcher will load the task verifier automatically from the task folder.
 
 Guidelines:
 
@@ -139,7 +146,7 @@ If you also want Cloud repo-backed V1 runs to discover the skill automatically, 
 
 Current state of the world:
 
-- `skills/.../SKILL.md` is the SDK-oriented path used by local/Docker runs and explicit SDK skill injection.
+- `skills/.../SKILL.md` is the SDK-oriented path used by local agent-server runs and explicit SDK skill injection.
 - `.openhands/skills/*.md` is the project-skill layout the current Cloud V1 runtime discovers in repo-backed runs.
 - This split is awkward, but it reflects the current V1 versus SDK control-plane behavior.
 
@@ -166,10 +173,39 @@ Keep the prompt aligned with what the verifier actually checks.
 
 ## Step 7: Run The Baseline First
 
+Before you run it, add a thin task-specific wrapper in `scripts/`. The wrappers in this repo keep the tutorial approachable because each task looks like its own evaluation command even though they all share the same engine.
+
+Example:
+
+```python
+from __future__ import annotations
+
+import subprocess
+import sys
+from pathlib import Path
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+RUN_EVAL = SCRIPT_DIR / "run_eval.py"
+
+if __name__ == "__main__":
+    raise SystemExit(
+        subprocess.run(
+            [sys.executable, str(RUN_EVAL), "--task", "my-new-task", *sys.argv[1:]],
+            check=False,
+        ).returncode
+    )
+```
+
+Then your task has a clean entrypoint like:
+
+```bash
+uv run python scripts/run_my_new_task_eval.py --backend cloud --condition no-skill
+```
+
 Before tuning the skill, run:
 
 ```bash
-uv run python scripts/run_eval.py --task <task-name> --condition no-skill
+uv run python scripts/run_<task>_eval.py --condition no-skill
 ```
 
 That tells you:
@@ -183,7 +219,7 @@ That tells you:
 Then run:
 
 ```bash
-uv run python scripts/run_eval.py --task <task-name> --condition improved-skill
+uv run python scripts/run_<task>_eval.py --condition improved-skill
 ```
 
 Compare:
@@ -193,11 +229,11 @@ Compare:
 - event count
 - traces, if you have observability enabled
 
-uv run python scripts/run_eval.py --task <task-name> --backend agent-server --execution-mode repo --condition improved-skill
+uv run python scripts/run_<task>_eval.py --backend agent-server --execution-mode repo --condition improved-skill
 ```
 
 ```bash
-uv run python scripts/run_eval.py --task <task-name> --backend cloud --execution-mode repo --condition improved-skill --cloud-repo <owner/repo>
+uv run python scripts/run_<task>_eval.py --backend cloud --execution-mode repo --condition improved-skill --cloud-repo <owner/repo>
 ```
 
 ## Step 9: Add Model Matrix Runs If Useful

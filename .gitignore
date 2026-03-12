@@ -8,5 +8,5 @@ workspace/
 bash_events/
 conversations/
 src/*.egg-info/
-task_repos/*/output/*
-!task_repos/*/output/.gitkeep
+tasks/*/output/*
+!tasks/*/output/.gitkeep

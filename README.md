@@ -73,8 +73,7 @@ This is the main tutorial path.
 Run against the GitHub repo directly:
 
 ```bash
-uv run python scripts/run_eval.py \
-  --task sec-financial-report \
+uv run python scripts/run_sec_financial_report_eval.py \
   --backend cloud \
   --execution-mode repo \
   --condition improved-skill \
@@ -84,12 +83,14 @@ uv run python scripts/run_eval.py \
 The same pattern works for the other tasks:
 
 ```bash
-uv run python scripts/run_eval.py --task software-dependency-audit --backend cloud --execution-mode repo --condition no-skill --cloud-repo rajshah4/evaluating-skills-tutorial
-uv run python scripts/run_eval.py --task software-dependency-audit --backend cloud --execution-mode repo --condition improved-skill --cloud-repo rajshah4/evaluating-skills-tutorial
-uv run python scripts/run_eval.py --task sales-pivot-analysis --backend cloud --execution-mode repo --condition improved-skill --cloud-repo rajshah4/evaluating-skills-tutorial
+uv run python scripts/run_dependency_audit_eval.py --backend cloud --condition no-skill
+uv run python scripts/run_dependency_audit_eval.py --backend cloud --condition improved-skill
+uv run python scripts/run_sales_pivot_eval.py --backend cloud --execution-mode repo --condition improved-skill --cloud-repo rajshah4/evaluating-skills-tutorial
 ```
 
+Each task has a thin wrapper script in `scripts/` so the tutorial reads like one evaluation per task instead of one giant command with `--task` everywhere. If you add your own task, copying one of these wrappers is the simplest way to create a task-specific entrypoint while still reusing the shared engine in `scripts/run_eval.py`.
 
+Most tasks can run repo-backed directly from `tasks/<task>/`. `software-dependency-audit` is the exception: its pinned offline Trivy snapshot lives under `tasks/software_dependency_audit/skill_input/`, so the baseline stays upload-based to avoid leaking that artifact into `no-skill`.
 
 ## Local
 
@@ -104,11 +105,17 @@ Start the server:
 Run an evaluation:
 
 ```bash
-uv run python scripts/run_eval.py \
-  --task sec-financial-report \
+uv run python scripts/run_sec_financial_report_eval.py \
   --backend agent-server \
   --execution-mode repo \
   --condition improved-skill
+```
+
+For `software-dependency-audit`, use the default upload mode locally as well:
+
+```bash
+uv run python scripts/run_dependency_audit_eval.py --backend agent-server --condition no-skill
+uv run python scripts/run_dependency_audit_eval.py --backend agent-server --condition improved-skill
 ```
 
 Recommended local env vars:

@@ -135,9 +135,7 @@ def build_agent_context(task: str, condition: str) -> AgentContext | None:
     if condition == "no-skill":
         return None
 
-    task_skill_dir = ROOT / "skills" / task.replace("-", "_") / condition.replace("-skill", "")
-    fallback_skill_dir = ROOT / "skills" / condition.replace("-skill", "")
-    skill_dir = task_skill_dir if task_skill_dir.exists() else fallback_skill_dir
+    skill_dir = ROOT / "skills" / task.replace("-", "_") / condition.replace("-skill", "")
     skill_path = skill_dir / "SKILL.md"
     content = skill_path.read_text(encoding="utf-8")
     return AgentContext(
@@ -153,9 +151,7 @@ def build_agent_context(task: str, condition: str) -> AgentContext | None:
 
 
 def get_skill_paths(task: str, condition: str, *, cloud_repo: str = "evaluating-skills-tutorial") -> tuple[Path, str]:
-    task_dir = ROOT / "skills" / task.replace("-", "_") / condition.replace("-skill", "")
-    fallback_dir = ROOT / "skills" / condition.replace("-skill", "")
-    skill_dir = task_dir if task_dir.exists() else fallback_dir
+    skill_dir = ROOT / "skills" / task.replace("-", "_") / condition.replace("-skill", "")
     skill_path = skill_dir / "SKILL.md"
     repo_name = cloud_repo.split("/")[-1].strip() or "evaluating-skills-tutorial"
     repo_skill_path = (
@@ -182,7 +178,7 @@ def build_prompt_for_paths(
     if task == "software-dependency-audit" and condition != "no-skill":
         snapshot_context = (
             f"- A pinned offline scan snapshot may also be present at "
-            f"`{remote_project_dir}/input/trivy_report.json`.\n"
+            f"`{remote_project_dir}/skill_input/trivy_report.json`.\n"
         )
         deterministic_rule = "- Prefer deterministic local inputs over refreshing live vulnerability data.\n"
 
@@ -284,7 +280,7 @@ def get_remote_paths(
                 raise RuntimeError("cloud_repo must be set for cloud repo-backed runs")
             remote_project_dir = f"/workspace/project/{repo_name}/tasks/{config.dir_name}"
         else:
-            remote_project_dir = f"{cloud_repo.rstrip('/')}/task_repos/{config.dir_name}"
+            remote_project_dir = f"{cloud_repo.rstrip('/')}/tasks/{config.dir_name}"
         remote_output_dir = f"{remote_project_dir}/output"
         remote_report = f"{remote_output_dir}/{config.output_name}"
         return remote_project_dir, remote_output_dir, remote_report
@@ -293,9 +289,7 @@ def get_remote_paths(
 
 def prepare_repo_backed_task(task: str, condition: str) -> Path:
     config = get_task_config(task)
-    repo_dir = config.local_repo_dir
-    repo_input_dir = repo_dir / "input"
-    task_input_dir = config.task_dir / "input"
+    repo_dir = config.runtime_task_dir
     output_dir = repo_dir / "output"
     output_dir.mkdir(parents=True, exist_ok=True)
     for child in output_dir.iterdir():
@@ -303,15 +297,6 @@ def prepare_repo_backed_task(task: str, condition: str) -> Path:
             continue
         if child.is_file():
             child.unlink()
-    for name in config.conditional_input_paths:
-        repo_path = repo_input_dir / name
-        task_path = task_input_dir / name
-        if condition == "no-skill":
-            if repo_path.exists():
-                repo_path.unlink()
-        elif task_path.is_file():
-            repo_path.parent.mkdir(parents=True, exist_ok=True)
-            repo_path.write_bytes(task_path.read_bytes())
     return repo_dir
 
 
@@ -537,13 +522,14 @@ def main() -> int:
             workspace.execute_command(f"mkdir -p {remote_output_dir}")
         else:
             workspace.execute_command(f"mkdir -p {REMOTE_INPUT_DIR} {REMOTE_OUTPUT_DIR}")
-            input_dir = config.task_dir / "input"
             upload_names = list(config.input_paths)
             if args.condition != "no-skill":
                 upload_names.extend(config.conditional_input_paths)
 
             for name in upload_names:
-                local_path = input_dir / name
+                local_path = config.task_dir / "input" / name
+                if not local_path.exists():
+                    local_path = config.task_dir / name
                 if local_path.is_file():
                     remote_path = f"{REMOTE_INPUT_DIR}/{name}"
                     remote_parent = str(Path(remote_path).parent)
@@ -568,7 +554,7 @@ def main() -> int:
 
         local_report = run_dir / config.output_name
         if args.execution_mode == "repo":
-            local_repo_report = config.local_repo_dir / "output" / config.output_name
+            local_repo_report = config.runtime_task_dir / "output" / config.output_name
             if not local_repo_report.exists():
                 raise RuntimeError(f"Repo-backed run did not produce expected artifact: {local_repo_report}")
             local_report.write_bytes(local_repo_report.read_bytes())

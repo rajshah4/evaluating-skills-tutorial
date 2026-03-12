@@ -6,7 +6,6 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 RESULTS_DIR = ROOT / "results"
-TASK_REPOS_DIR = ROOT / "task_repos"
 
 REMOTE_PROJECT_DIR = "/workspace/project"
 REMOTE_INPUT_DIR = f"{REMOTE_PROJECT_DIR}/input"
@@ -36,8 +35,8 @@ class TaskConfig:
         return self.task_dir / self.expected_name
 
     @property
-    def local_repo_dir(self) -> Path:
-        return TASK_REPOS_DIR / self.dir_name
+    def runtime_task_dir(self) -> Path:
+        return self.task_dir
 
     @property
     def remote_output(self) -> str:
@@ -52,7 +51,7 @@ TASKS = {
         expected_name="expected_report.json",
         prompt_name="task_prompt.txt",
         input_paths=("package-lock.json",),
-        conditional_input_paths=("trivy_report.json",),
+        conditional_input_paths=("skill_input/trivy_report.json",),
     ),
     "sec-financial-report": TaskConfig(
         key="sec-financial-report",

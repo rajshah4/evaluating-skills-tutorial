@@ -57,13 +57,14 @@ What they do:
 
 ## How Repo-Backed Local Runs Work
 
-The local agent-server flow uses committed task fixtures under:
+For repo-backed tasks, the local agent-server flow works directly inside the task folder under:
 
-- `task_repos/software_dependency_audit`
-- `task_repos/sec_financial_report`
-- `task_repos/sales_pivot_analysis`
+- `tasks/sec_financial_report`
+- `tasks/sales_pivot_analysis`
 
 The runner maps each task to one of those directories inside the mounted repo and asks OpenHands to write the output artifact there.
+
+`software-dependency-audit` is handled differently: it stays upload-based so the pinned offline Trivy snapshot under `tasks/software_dependency_audit/skill_input/` is not visible during `no-skill` runs.
 
 Example:
 
@@ -78,7 +79,7 @@ uv run python scripts/run_eval.py \
 For that run, the agent works against:
 
 ```text
-/workspace/project/evaluating-skills-tutorial/task_repos/sec_financial_report
+/workspace/project/evaluating-skills-tutorial/tasks/sec_financial_report
 ```
 
 ## Outputs
