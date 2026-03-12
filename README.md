@@ -1,13 +1,8 @@
-# Evaluating Skills Tutorial
+# Evaluating Skills - A Starter
 
-This repo shows a simple pattern for evaluating OpenHands skills on deterministic tasks:
+This repository is a starting point for evaluating skills. It shows a simple workflow: run a task without a skill, run it again with a skill, verify the output locally, and compare the results. From here, you can move to more complex methods for evaluating skills.
 
-1. run a task with `no-skill`
-2. run the same task with a skill
-3. verify the output locally
-4. compare pass/fail, runtime, and event count
-
-It is intentionally tutorial-sized, not a full benchmark harness.
+The examples are adapted from [SkillsBench](https://github.com/benchflow-ai/skillsbench), but the goal here is not to recreate a full benchmark harness. The goal is to give you a practical starting point for testing your own skills with OpenHands Cloud or a local agent server. All the code can be run in your local environment, and if you want to use an open source observability platform like Laminar, just add your key.
 
 Current task examples:
 
@@ -15,11 +10,20 @@ Current task examples:
 - `sec-financial-report`
 - `sales-pivot-analysis`
 
-These examples are adapted from SkillsBench:
+Outcomes:
 
-- https://github.com/benchflow-ai/skillsbench
+This repo helps you assess three distinct task examples. You can see overall performance, performance by model, and traces. As you go through these, you will see that sometimes adding a skill leads to large improvements, sometimes no improvement, and on occasion a skill can be counterproductive. I intentionally chose these examples to broaden your thinking about skill evaluation.
+
+![Pass rate by task](results/visuals/pass_rate_by_task.svg)
+
+![Model breakdown by task](results/visuals/model_breakdown_by_task.svg)
+
+- For a deeper dive into evaluating skills, check out [docs/METHODOLOGY.md](docs/METHODOLOGY.md)
+- To add a new task, follow [docs/ADDING_A_TASK.md](docs/ADDING_A_TASK.md)
 
 ## Quickstart
+
+You can run this on OpenHands Cloud or with a local OpenHands Agent:
 
 Requirements:
 
@@ -144,21 +148,15 @@ uv run python scripts/export_metrics_summary.py
 uv run python scripts/generate_visuals.py
 ```
 
-Saved outputs:
+Included outputs:
 
 - [summary csv](results/fresh_matrix_summary.csv)
 - [summary json](results/fresh_matrix_summary.json)
 - [dashboard](results/visuals/index.html)
 
-Example visuals:
+## Run Multiple Models
 
-![Pass rate by task](results/visuals/pass_rate_by_task.svg)
-
-![Model breakdown by task](results/visuals/model_breakdown_by_task.svg)
-
-## Compare Models
-
-Use the OpenHands-routed model format: `openhands/<model>`.
+If you want to compare across multiple models, you can easily do that. The examples here use OpenHands-routed models in the format `openhands/<model>`.
 
 Validated examples:
 
@@ -182,14 +180,9 @@ uv run python scripts/run_model_matrix.py \
   --model openhands/kimi-k2-0711-preview
 ```
 
-## Notes
+## Observability
 
-This tutorial uses Laminar as the example tracing backend, but the evaluation loop is not tied to Laminar. Traces help explain behavior; the verifier decides correctness.
-
-If you want to adapt this repo for your own skills:
-
-- Skill evaluation methodology: [docs/METHODOLOGY.md](docs/METHODOLOGY.md)
-- add a new task: [docs/ADDING_A_TASK.md](docs/ADDING_A_TASK.md)
+This tutorial uses Laminar as the example tracing backend, but the evaluation loop is not tied to Laminar. Traces help explain behavior; the verifier decides correctness. OpenHands is OTEL-compatible, so you can use the observability tool of your choice.
 
 ## Acknowledgements
 

@@ -160,11 +160,16 @@ def draw_grouped_bars(
             x = group_x + cond_index * (bar_width + inner_gap)
             y = margin_top + chart_h - bar_h
             color = NO_SKILL_COLOR if condition == "no-skill" else SKILL_COLOR
+            visible_bar_h = bar_h
+            visible_y = y
+            if value == 0:
+                visible_bar_h = 2.0
+                visible_y = margin_top + chart_h - visible_bar_h
             parts.append(
-                f'<rect x="{x:.1f}" y="{y:.1f}" width="{bar_width}" height="{bar_h:.1f}" rx="8" fill="{color}"/>'
+                f'<rect x="{x:.1f}" y="{visible_y:.1f}" width="{bar_width}" height="{visible_bar_h:.1f}" rx="8" fill="{color}"/>'
             )
             parts.append(
-                f'<text x="{x + bar_width / 2:.1f}" y="{y - 10:.1f}" text-anchor="middle" font-size="14" '
+                f'<text x="{x + bar_width / 2:.1f}" y="{visible_y - 10:.1f}" text-anchor="middle" font-size="14" '
                 f'fill="{TEXT_COLOR}" font-family="Helvetica, Arial, sans-serif">{value:.1f}{escape(y_suffix)}</text>'
             )
 
