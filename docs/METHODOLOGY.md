@@ -1,8 +1,8 @@
 # Skill Evaluation Methodology
 
-This page is about how to think about evaluating a skill.
+This page is about how to think about evaluating a skill. The focus here is deterministic evaluation. Regardless of whether your skill passes or fails, you should spend time looking at the individual traces. In building this tutorial, I was able to get several insights and solve issues by looking at traces from failed examples.
 
-It is not a description of this repo's internal structure. It is a lightweight methodology you can reuse for your own skills.
+
 
 ## What a skill evaluation is
 
@@ -149,6 +149,8 @@ If you are deciding between competing approaches, compare:
 
 The important point is that the task and verifier stay the same while the condition changes.
 
+You may also want to compare across different models.
+
 ## What a verifier should check
 
 A good verifier should be narrow and boring.
@@ -181,8 +183,7 @@ Use them to understand:
 
 Do not use traces as the ground truth for success.
 
-The verifier decides correctness.
-The trace helps explain behavior.
+The verifier decides correctness and the trace helps explain behavior.
 
 ## How to interpret different outcomes
 
