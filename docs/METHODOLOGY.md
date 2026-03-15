@@ -227,7 +227,7 @@ That is a valuable result. A skill can be harmful.
 In this tutorial repo, `sales-pivot-analysis` is a concrete example of that pattern.
 
 - After aligning the verifier to the intended task contract, most saved sales runs passed.
-- But `openhands/gemini-3-pro-preview` still passed `no-skill` and failed `improved-skill`.
+- But `openhands/claude-sonnet-4-5-20250929` passed `no-skill` on both backends yet failed `improved-skill` on cloud.
 - The likely explanation is not that the model cannot solve the task. It is that the current "improved" sales skill nudges the model into a more brittle workbook-construction path.
 
 That is exactly the kind of finding a skill evaluation should surface. "Improved" is only a hypothesis until it is measured.

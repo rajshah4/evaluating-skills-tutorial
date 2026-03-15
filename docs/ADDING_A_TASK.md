@@ -229,6 +229,7 @@ Compare:
 - event count
 - traces, if you have observability enabled
 
+```bash
 uv run python scripts/run_<task>_eval.py --backend agent-server --execution-mode repo --condition improved-skill
 ```
 

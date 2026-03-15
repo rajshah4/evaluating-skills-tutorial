@@ -1,6 +1,0 @@
-openhands-sdk>=1.12.0
-openhands-tools>=1.12.0
-openhands-workspace>=1.12.0
-openpyxl>=3.1.5
-pydantic>=2.12.0
-python-dotenv>=1.1.1

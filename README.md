@@ -12,7 +12,7 @@ Current task examples:
 
 Outcomes:
 
-This repo helps you assess three distinct task examples. You can see overall performance, performance by model, and traces. As you go through these, you will see that sometimes adding a skill leads to large improvements, sometimes no improvement, and on occasion a skill can be counterproductive. I intentionally chose these examples to broaden your thinking about skill evaluation.
+This repo helps you assess three distinct task examples. You can see overall performance, performance by model, and traces. As you go through these, you will see that sometimes adding a skill leads to large improvements, sometimes marginal improvement, and on occasion a skill can be counterproductive. I intentionally chose these examples to broaden your thinking about skill evaluation.
 
 ![Pass rate by task](results/visuals/pass_rate_by_task.svg)
 
