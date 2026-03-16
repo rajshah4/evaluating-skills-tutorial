@@ -135,8 +135,9 @@ def build_agent_context(task: str, condition: str) -> AgentContext | None:
     if condition == "no-skill":
         return None
 
-    skill_dir = ROOT / "skills" / task.replace("-", "_") / condition.replace("-skill", "")
-    skill_path = skill_dir / "SKILL.md"
+    config = get_task_config(task)
+    variant = condition.replace("-skill", "")
+    skill_path = config.skill_path(variant)
     content = skill_path.read_text(encoding="utf-8")
     return AgentContext(
         skills=[
@@ -151,18 +152,26 @@ def build_agent_context(task: str, condition: str) -> AgentContext | None:
 
 
 def get_skill_paths(task: str, condition: str, *, cloud_repo: str = "evaluating-skills-tutorial") -> tuple[Path, str]:
-    skill_dir = ROOT / "skills" / task.replace("-", "_") / condition.replace("-skill", "")
-    skill_path = skill_dir / "SKILL.md"
+    config = get_task_config(task)
+    variant = condition.replace("-skill", "")
+    skill_path = config.skill_path(variant)
     repo_name = cloud_repo.split("/")[-1].strip() or "evaluating-skills-tutorial"
     repo_skill_path = (
         f"/workspace/project/{repo_name}/.openhands/skills/"
-        f"{task.replace('-', '_')}_{condition.replace('-skill', '')}.md"
+        f"{config.dir_name}_{variant}.md"
     )
     return skill_path, repo_skill_path
 
 
 def build_prompt(task: str, condition: str) -> str:
-    return build_prompt_for_paths(task, condition, REMOTE_PROJECT_DIR, REMOTE_OUTPUT_DIR, get_task_config(task).remote_output)
+    return build_prompt_for_paths(
+        task,
+        condition,
+        REMOTE_PROJECT_DIR,
+        REMOTE_OUTPUT_DIR,
+        get_task_config(task).remote_output,
+        execution_mode="upload",
+    )
 
 
 def build_prompt_for_paths(
@@ -171,14 +180,21 @@ def build_prompt_for_paths(
     remote_project_dir: str,
     remote_output_dir: str,
     remote_report: str,
+    *,
+    execution_mode: str,
 ) -> str:
     config = get_task_config(task)
     snapshot_context = ""
     deterministic_rule = ""
     if task == "software-dependency-audit" and condition != "no-skill":
+        snapshot_path = (
+            f"{remote_project_dir}/input/skill_input/trivy_report.json"
+            if execution_mode == "upload"
+            else f"{remote_project_dir}/skill_input/trivy_report.json"
+        )
         snapshot_context = (
             f"- A pinned offline scan snapshot may also be present at "
-            f"`{remote_project_dir}/skill_input/trivy_report.json`.\n"
+            f"`{snapshot_path}`.\n"
         )
         deterministic_rule = "- Prefer deterministic local inputs over refreshing live vulnerability data.\n"
 
@@ -330,6 +346,7 @@ def run_cloud_repo_mode(
         remote_project_dir,
         remote_output_dir,
         remote_report,
+        execution_mode="repo",
     )
     headers = {"X-Session-API-Key": cloud_api_key, "Content-Type": "application/json"}
     events: list[dict[str, Any]] = []
@@ -548,6 +565,7 @@ def main() -> int:
                 remote_project_dir,
                 remote_output_dir,
                 remote_report,
+                execution_mode=args.execution_mode,
             )
         )
         conversation.run()

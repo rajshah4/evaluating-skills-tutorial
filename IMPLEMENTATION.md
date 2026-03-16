@@ -66,6 +66,12 @@ The runner maps each task to one of those directories inside the mounted repo an
 
 `software-dependency-audit` is handled differently: it stays upload-based so the pinned offline Trivy snapshot under `tasks/software_dependency_audit/skill_input/` is not visible during `no-skill` runs.
 
+In that upload-based path, the snapshot is uploaded into the sandbox at:
+
+```text
+/workspace/project/input/skill_input/trivy_report.json
+```
+
 Example:
 
 ```bash
@@ -111,6 +117,19 @@ Local agent-server runs:
 - connect to your own running OpenHands agent server
 - do not require `OPENHANDS_CLOUD_API_KEY`
 - are useful when you want a local runtime with the same general client-to-server shape
+- read canonical skills from `tasks/<task>/skills/<variant>/SKILL.md`
+
+Compatibility skill copies:
+
+- `.openhands/skills/*.md` supports Cloud repo-backed V1 skill discovery
+- `.agents/skills/.../SKILL.md` supports the Codex/AGENTS workflow in this repo
+- regenerate both from task-local skills with `uv run python scripts/sync_skills.py`
+
+Live-validated after the task-local skill refactor:
+
+- cloud upload mode for `software-dependency-audit`
+- local agent-server repo mode for `sec-financial-report`
+- local agent-server repo mode for `sales-pivot-analysis`
 
 ## Related Files
 

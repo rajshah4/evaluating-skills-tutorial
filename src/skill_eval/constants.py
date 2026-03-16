@@ -39,6 +39,16 @@ class TaskConfig:
         return self.task_dir
 
     @property
+    def skills_dir(self) -> Path:
+        return self.task_dir / "skills"
+
+    def skill_dir(self, variant: str) -> Path:
+        return self.skills_dir / variant
+
+    def skill_path(self, variant: str) -> Path:
+        return self.skill_dir(variant) / "SKILL.md"
+
+    @property
     def remote_output(self) -> str:
         return f"{REMOTE_OUTPUT_DIR}/{self.output_name}"
 

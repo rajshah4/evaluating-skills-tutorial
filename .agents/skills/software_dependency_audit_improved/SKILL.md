@@ -10,7 +10,7 @@ Use this procedure for dependency-audit tasks in restricted environments.
 ## Workflow
 
 1. Verify the lockfile exists before scanning.
-2. Check for a pinned offline scan snapshot at `input/trivy_report.json`.
+2. Check for a pinned offline scan snapshot. In the upload-based tutorial flow, it will be at `input/skill_input/trivy_report.json`.
 3. If that snapshot exists, use it instead of refreshing a live vulnerability database.
 4. Otherwise prefer Trivy in offline mode.
 5. Use filesystem scanning against the lockfile and save raw JSON before transforming results.
@@ -18,7 +18,7 @@ Use this procedure for dependency-audit tasks in restricted environments.
 Preferred deterministic path:
 
 ```bash
-test -f input/trivy_report.json && cp input/trivy_report.json output/trivy_report.json
+test -f input/skill_input/trivy_report.json && cp input/skill_input/trivy_report.json output/trivy_report.json
 ```
 
 Suggested command pattern:

@@ -96,6 +96,14 @@ Each task has a thin wrapper script in `scripts/` so the tutorial reads like one
 
 Most tasks can run repo-backed directly from `tasks/<task>/`. `software-dependency-audit` is the exception: its pinned offline Trivy snapshot lives under `tasks/software_dependency_audit/skill_input/`, so the baseline stays upload-based to avoid leaking that artifact into `no-skill`.
 
+Skills are authored next to each task under `tasks/<task>/skills/<variant>/SKILL.md`. After editing task-local skills, regenerate the compatibility copies used by Cloud V1 and AGENTS with:
+
+```bash
+uv run python scripts/sync_skills.py
+```
+
+In the upload-based dependency-audit flow, the pinned snapshot is uploaded to `/workspace/project/input/skill_input/trivy_report.json`.
+
 ## Local
 
 Use a local agent server when you want a local runtime with a similar client-to-server shape.
@@ -129,6 +137,12 @@ export OPENHANDS_AGENT_SERVER_URL=http://127.0.0.1:8000
 ```
 
 For the exact local setup, see [IMPLEMENTATION.md](IMPLEMENTATION.md).
+
+Validated live after the task-local skill refactor:
+
+- `uv run python scripts/run_dependency_audit_eval.py --backend cloud --condition improved-skill`
+- `uv run python scripts/run_sec_financial_report_eval.py --backend agent-server --execution-mode repo --condition improved-skill`
+- `uv run python scripts/run_sales_pivot_eval.py --backend agent-server --execution-mode repo --condition improved-skill`
 
 ## Verify And Compare
 

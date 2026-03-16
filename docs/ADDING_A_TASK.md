@@ -127,28 +127,22 @@ Guidelines:
 
 ## Step 5: Add Skill Variants
 
-Create skill folders under `skills/`.
+Create skill folders under the task folder.
 
 Example:
 
 ```text
-skills/my_new_task/baseline/SKILL.md
-skills/my_new_task/improved/SKILL.md
-```
-
-The runner will look for task-specific skills first.
-
-If you also want Cloud repo-backed V1 runs to discover the skill automatically, add a flat project skill file under:
-
-```text
-.openhands/skills/my_new_task_improved.md
+tasks/my_new_task/skills/baseline/SKILL.md
+tasks/my_new_task/skills/improved/SKILL.md
 ```
 
 Current state of the world:
 
-- `skills/.../SKILL.md` is the SDK-oriented path used by local agent-server runs and explicit SDK skill injection.
+- `tasks/.../skills/.../SKILL.md` is the source of truth used by local agent-server runs and explicit SDK skill injection.
 - `.openhands/skills/*.md` is the project-skill layout the current Cloud V1 runtime discovers in repo-backed runs.
-- This split is awkward, but it reflects the current V1 versus SDK control-plane behavior.
+- `.agents/skills/.../SKILL.md` is the compatibility layout used by the Codex/AGENTS workflow in this repo.
+- Run `uv run python scripts/sync_skills.py` after editing task-local skills to regenerate the compatibility copies.
+- For upload-based tasks, remember that `conditional_input_paths` are uploaded under `/workspace/project/input/...`, so skill text and prompts should refer to that runtime path.
 
 A useful skill should encode:
 
