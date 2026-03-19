@@ -107,6 +107,28 @@ Those secondary metrics matter because two skills may both pass, but one may:
 - take a cleaner path
 - fail less often across reruns
 
+## Where confidence intervals help
+
+If you are doing a real evaluation and want to compare conditions more carefully, confidence intervals are useful for aggregate metrics, especially:
+
+- pass rate across repeated runs
+- pass rate across multiple tasks
+- average runtime across a batch of runs
+
+They help because they force you to look at uncertainty, not just point estimates. If one condition goes from 70% to 80% over a small number of runs, that may reflect a real improvement, or it may just be noise. Confidence intervals make that ambiguity visible.
+
+That said, they are a reporting tool, not the foundation of the evaluation.
+
+- For one deterministic run, the result is still pass or fail.
+- If you only have a small number of runs, the interval may be wide enough that you should avoid strong claims.
+- If you are trying to understand why a skill failed, traces and verifier outputs matter more than statistical summaries.
+
+In practice:
+
+- use confidence intervals for aggregated pass rates if you want to compare conditions more rigorously
+- consider bootstrap intervals for runtime or step-count summaries
+- always show the underlying counts, such as `8/10`, not just `80%`
+
 ## The baseline matters
 
 Always run `no-skill`.
