@@ -80,21 +80,26 @@ Run against the GitHub repo directly:
 uv run python scripts/run_sec_financial_report_eval.py \
   --backend cloud \
   --execution-mode repo \
+  --condition no-skill \
+  --cloud-repo rajshah4/evaluating-skills-tutorial
+
+uv run python scripts/run_sec_financial_report_eval.py \
+  --backend cloud \
+  --execution-mode repo \
   --condition improved-skill \
   --cloud-repo rajshah4/evaluating-skills-tutorial
 ```
 
-The same pattern works for the other tasks:
+The same pattern works for `sales-pivot-analysis`:
 
 ```bash
-uv run python scripts/run_dependency_audit_eval.py --backend cloud --execution-mode repo --condition no-skill --cloud-repo rajshah4/evaluating-skills-tutorial
-uv run python scripts/run_dependency_audit_eval.py --backend cloud --execution-mode repo --condition improved-skill --cloud-repo rajshah4/evaluating-skills-tutorial
+uv run python scripts/run_sales_pivot_eval.py --backend cloud --execution-mode repo --condition no-skill --cloud-repo rajshah4/evaluating-skills-tutorial
 uv run python scripts/run_sales_pivot_eval.py --backend cloud --execution-mode repo --condition improved-skill --cloud-repo rajshah4/evaluating-skills-tutorial
 ```
 
 Each task has a thin wrapper script in `scripts/` so the tutorial reads like one evaluation per task instead of one giant command with `--task` everywhere. If you add your own task, copying one of these wrappers is the simplest way to create a task-specific entrypoint while still reusing the shared engine in `scripts/run_eval.py`.
 
-**Important: Always use `--execution-mode repo` for Cloud evaluations.** Cloud sandboxes don't include tools like Trivy, so upload mode (the default) will fail for tasks that require external scanners. Repo mode clones the entire repository, giving the agent access to pinned scan results and other task fixtures.
+**Note on `software-dependency-audit`:** This task requires separate conversations for skill vs no-skill testing to avoid leakage of the pinned Trivy report. The OpenHands CLI handles this correctly, or use the local agent-server for proper skill comparison.
 
 Skills are authored next to each task under `tasks/<task>/skills/<variant>/SKILL.md`. After editing task-local skills, regenerate the compatibility copies used by Cloud V1 and AGENTS with:
 
