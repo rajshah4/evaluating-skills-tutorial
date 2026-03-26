@@ -4,6 +4,8 @@ This repository is a starting point for evaluating skills. It shows a simple wor
 
 The examples are adapted from [SkillsBench](https://github.com/benchflow-ai/skillsbench), but the goal here is not to recreate a full benchmark harness. The goal is to give you a practical starting point for testing your own skills with OpenHands Cloud or a local agent server. All the code can be run in your local environment, and if you want to use an open source observability platform like Laminar, just add your key.
 
+There is also an accompanying [blog post](https://openhands.dev/blog/evaluating-agent-skills) and a [youtube video](https://youtu.be/Bi64khMqdG0) which explains the background for this project and demonstrates the evaluation of skills.
+
 Current task examples:
 
 - `software-dependency-audit`
