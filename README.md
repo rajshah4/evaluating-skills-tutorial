@@ -55,7 +55,7 @@ export OPENHANDS_CLOUD_API_KEY=...
 - `OPENHANDS_CLOUD_API_KEY`: your OpenHands Cloud API key
   https://docs.openhands.dev/openhands/usage/cloud/cloud-api
 - `GitHub token`: create a token with `repo` scope if you are using a token-based GitHub connection for repo-backed Cloud runs
-  https://docs.openhands.dev/usage/cloud/github-installation
+  https://docs.openhands.dev/openhands/usage/cloud/github-installation
 
 For the local agent-server path:
 
